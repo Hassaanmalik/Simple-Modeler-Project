@@ -1,6 +1,15 @@
 #include "nodeTransform.h"
 #include <stdio.h> //needed for printf command
-#include <gl/glut.h>
+#ifdef __APPLE__
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glu.h>
+#  include <GLUT/glut.h>
+#else
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/freeglut.h>
+#endif
+ 
 
 //for gltranslate and gl scale
 NodeTransform::NodeTransform(transformType whatType, Vector3D vec3){

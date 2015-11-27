@@ -2,7 +2,16 @@
 #define __NODEMODEL_H__
 
 #include "node.h"
-#include <gl/glut.h>
+#ifdef __APPLE__
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glu.h>
+#  include <GLUT/glut.h>
+#else
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/freeglut.h>
+#endif
+ 
 
 enum ModelType{
 	Sphere,

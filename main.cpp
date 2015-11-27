@@ -1,7 +1,16 @@
 /* CS 3GC3 - Texturing sample
  * by R. Teather
  */
-#include <gl/glut.h>
+#ifdef __APPLE__
+#  include <OpenGL/gl.h>
+#  include <OpenGL/glu.h>
+#  include <GLUT/glut.h>
+#else
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/freeglut.h>
+#endif
+ 
 #include <stdio.h>
  #include <stdlib.h>
  #include <math.h>
@@ -117,6 +126,21 @@ void special(int key, int x, int y)
 	glutPostRedisplay();
 }
 
+void drawAxis()
+{
+	glBegin(GL_LINES);
+	glColor3f(0, 0, 0);
+	glVertex3f(0,0,0);
+	glVertex3f(50,0,0);
+//	glColor3f(0,1,0);
+	glVertex3f(0,0,0);
+	glVertex3f(0,50,0);
+//	glColor3f(0,0,1);
+	glVertex3f(0,0,0);
+	glVertex3f(0,0,50);
+	glEnd();
+}
+
 void init(void)
 {	GLuint id = 1;
 
@@ -152,6 +176,7 @@ void display(void)
 	glLoadIdentity();
 
 	gluLookAt(camPos[0], camPos[1], camPos[2], 0,0,0, 0,1,0);
+	drawAxis();
 	glColor3f(1,1,1);
 
 	//draw the sceneGraph
