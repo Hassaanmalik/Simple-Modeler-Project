@@ -1,14 +1,6 @@
 #include "NodeModel.h"
 #include <stdio.h> //needed for printf command
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#  include <OpenGL/glu.h>
-#  include <GLUT/glut.h>
-#else
-#  include <GL/gl.h>
-#  include <GL/glu.h>
-#  include <GL/freeglut.h>
-#endif
+#include <gl\glut.h>
 
 NodeModel::NodeModel(ModelType whatType){	//constructor
 	nodeType = model;
@@ -28,6 +20,18 @@ void NodeModel::nodeSpecificCodeDown(){
 		break;
 	case Teapot:
 		glutSolidTeapot(1);
+		break;
+	case Cone:
+		glutSolidCone(1,2,40,1);
+		break;
+	case Cylinder:
+		glutSolidCone(1,3,30, 10);
+		break;
+	case Torus:
+		glutSolidTorus(0.5,1,30, 30);
+		break;
+	case Tetrahedron:
+		glutWireTetrahedron();
 		break;
 	case Custom:
 		//own mesh thing

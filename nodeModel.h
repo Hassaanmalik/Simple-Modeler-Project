@@ -2,20 +2,16 @@
 #define __NODEMODEL_H__
 
 #include "node.h"
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#  include <OpenGL/glu.h>
-#  include <GLUT/glut.h>
-#else
-#  include <GL/gl.h>
-#  include <GL/glu.h>
-#  include <GL/freeglut.h>
-#endif
+#include <gl/glut.h>
 
 enum ModelType{
 	Sphere,
 	Cube,
 	Teapot,
+	Cone,
+	Cylinder,
+	Torus,
+	Tetrahedron,
 	Custom
 };
 

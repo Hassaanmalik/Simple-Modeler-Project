@@ -30,7 +30,7 @@ public:
 	Node* parent;
 	int currentChild;
 
-	void draw();
+	void draw(); 
 	virtual void nodeSpecificCodeDown();
 	virtual void nodeSpecificCodeUp();
 };

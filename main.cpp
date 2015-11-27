@@ -1,16 +1,10 @@
 /* CS 3GC3 - Texturing sample
  * by R. Teather
  */
-#ifdef __APPLE__
-#  include <OpenGL/gl.h>
-#  include <OpenGL/glu.h>
-#  include <GLUT/glut.h>
-#  include <stdlib.h>
-#else
-#  include <GL/gl.h>
-#  include <GL/glu.h>
-#  include <GL/freeglut.h>
-#endif
+#include <gl/glut.h>
+#include <stdio.h>
+ #include <stdlib.h>
+ #include <math.h>
 
 #include "structs.h"
 
@@ -55,9 +49,22 @@ void initGraph(){
 	//we will now add a teapot model to the graph as a child of the
 	//transformation node
 	NodeModel *M1 = new NodeModel(Teapot);
-	//insert the node into the graph
-	SG->insertChildNodeHere(M1);
+	NodeModel *M2 = new NodeModel(Sphere);
+	NodeModel *M3 = new NodeModel(Cube);
+	NodeModel *M4 = new NodeModel(Cone);
+	NodeModel *M5 = new NodeModel(Cylinder);
+	NodeModel *M6 = new NodeModel(Torus);
+	NodeModel *M7 = new NodeModel(Tetrahedron);
 
+	
+	//insert the node into the graph
+//	SG->insertChildNodeHere(M1);
+//	SG->insertChildNodeHere(M2);
+//	SG->insertChildNodeHere(M3);
+//	SG->insertChildNodeHere(M4);
+//	SG->insertChildNodeHere(M5);
+//	SG->insertChildNodeHere(M6);
+	SG->insertChildNodeHere(M7);
 
 	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
 	//DURING RUNTIME
@@ -69,9 +76,9 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-		case 'q'://quit the program
+		case 'q':
 		case 27:
-			exit(0);
+			exit (0);
 			break;
 	}
 	glutPostRedisplay();
@@ -115,7 +122,8 @@ void init(void)
 
 	glEnable(GLUT_DEPTH);
 
-	glClearColor(0, 0, 0, 0);
+	//glClearColor(0, 0, 0, 0);
+	glClearColor(1, 1, 0.5, 0.5);
 	glColor3f(1, 1, 1);
 
 	glMatrixMode(GL_PROJECTION);
@@ -139,6 +147,7 @@ void display(void)
 	float origin[3] = {0,0,0};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1, 1, 0.5, 0.5);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -164,6 +173,8 @@ int main(int argc, char** argv)
 
 	glutCreateWindow("SimpleSceneGraph");	//creates the window
 
+	
+	glClearColor(1, 1, 0.5, 0.5);
 	glutDisplayFunc(display);	//registers "display" as the display callback function
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
