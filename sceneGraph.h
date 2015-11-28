@@ -2,7 +2,7 @@
 #define __SCENEGRAPH_H__
 
 #include "node.h"
-
+#include "structs.h"
 class SceneGraph{
 public:
 	SceneGraph();	//constructor

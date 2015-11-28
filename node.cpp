@@ -1,6 +1,6 @@
 #include "node.h"
 #include <stdio.h>
-
+#include "structs.h"
 Node::Node(){	//constructor
 	ID = getID();
 	nodeType = root; //base class will be only really our root node, so lets do that

@@ -9,6 +9,7 @@
 #  include <GL/glu.h>
 #  include <GL/freeglut.h>
 #endif
+#include "structs.h"
  
 
 NodeGroup::NodeGroup(){

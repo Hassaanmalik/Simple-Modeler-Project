@@ -9,7 +9,7 @@
 #  include <GL/glu.h>
 #  include <GL/freeglut.h>
 #endif
- 
+ #include "structs.h"
 
 NodeModel::NodeModel(ModelType whatType){	//constructor
 	nodeType = model;

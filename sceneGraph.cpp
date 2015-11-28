@@ -1,6 +1,7 @@
 #include "sceneGraph.h"
 #include "node.h"
 #include <stdio.h>
+#include "structs.h"
 
 SceneGraph::SceneGraph(){
 	rootNode = new Node();

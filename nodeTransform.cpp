@@ -9,7 +9,7 @@
 #  include <GL/glu.h>
 #  include <GL/freeglut.h>
 #endif
- 
+ #include "structs.h"
 
 //for gltranslate and gl scale
 NodeTransform::NodeTransform(transformType whatType, Vector3D vec3){
