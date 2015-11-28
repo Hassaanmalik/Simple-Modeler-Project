@@ -223,10 +223,8 @@ void keyboard(unsigned char key, int x, int y)
 			thedron = true;
 			break;
 		case 'm':
-<<<<<<< HEAD
-=======
 			Vector3D tempVec3;
->>>>>>> 1d1a5d185297f3138ad86f9bbd6a49261cef9790
+
 			//TRANSFORMATION
 			//a tranlation transformation node
 			//how much translation
@@ -235,18 +233,17 @@ void keyboard(unsigned char key, int x, int y)
 			tempVec3.z = 5;
 			//add the node as a child of root node
 			T1 = new NodeTransform(Translate, tempVec3);
-<<<<<<< HEAD
-	//		//insert the node into the graph
+			//insert the node into the graph
 			SG->insertChildNodeHere(T1);
 			//go to the child node
 			SG->goToChild(SG -> returnChildNode());
-=======
+
 			//insert the node into the graph
 			SG->insertChildNodeHere(T1);
 			//go to the child node
 			SG->goToChild(4);
 
->>>>>>> 1d1a5d185297f3138ad86f9bbd6a49261cef9790
+
 	}
 	glutPostRedisplay();
 }
