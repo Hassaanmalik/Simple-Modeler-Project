@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "structs.h"
 
+int location = 0;
+
 SceneGraph::SceneGraph(){
 	rootNode = new Node();
 	currentNode = rootNode;
@@ -27,6 +29,7 @@ void SceneGraph::goToChild(int i){
 		currentNode = currentNode->children->at(i);
 	else
 		printf("child out of range");
+	location = i;
 }
 
 void SceneGraph::goToParent(){
@@ -42,6 +45,10 @@ void SceneGraph::insertChildNodeHere(Node *node){
 //deletes the current node, relinking the children as necessary
 void SceneGraph::deleteThisNode(){
 	//TODO
+}
+
+int SceneGraph::returnChildNode(){
+	return location;
 }
 
 //draw the scenegraph

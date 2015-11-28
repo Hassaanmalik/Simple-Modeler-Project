@@ -16,6 +16,7 @@ public:
 
 	//Scene Graph Draw
 	void draw();
+	int returnChildNode();
 
 private:
 	Node *currentNode;
