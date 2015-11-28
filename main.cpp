@@ -204,6 +204,21 @@ void keyboard(unsigned char key, int x, int y)
 		case 'J':
 			thedron = true;
 			break;
+		case 'm':
+			Vector3D tempVec3;
+			//TRANSFORMATION
+			//a tranlation transformation node
+			//how much translation
+			tempVec3.x = 5;
+			tempVec3.y = 5;
+			tempVec3.z = 5;
+			//add the node as a child of root node
+			T1 = new NodeTransform(Translate, tempVec3);
+			//insert the node into the graph
+			SG->insertChildNodeHere(T1);
+			//go to the child node
+			SG->goToChild(4);
+
 	}
 	glutPostRedisplay();
 }
