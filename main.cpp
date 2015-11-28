@@ -28,15 +28,17 @@ int getID(){
 }
 
 int child = 0;
-bool teapot = false;
+bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
 
 //sceneGraph
 #include "sceneGraph.h"
 #include "nodeGroup.h"
 #include "nodeModel.h"
 #include "nodeTransform.h"
+
 SceneGraph *SG;
 NodeTransform *T1;
+
 NodeModel *M1 = new NodeModel(Teapot);
 NodeModel *M2 = new NodeModel(Sphere);
 NodeModel *M3 = new NodeModel(Cube);
@@ -68,24 +70,21 @@ void initGraph(){
 	//MODEL
 	//we will now add a teapot model to the graph as a child of the
 	//transformation node
-	NodeModel *M1 = new NodeModel(Teapot);
-	NodeModel *M2 = new NodeModel(Sphere);
-	NodeModel *M3 = new NodeModel(Cube);
-	NodeModel *M4 = new NodeModel(Cone);
-	NodeModel *M5 = new NodeModel(Cylinder);
-	NodeModel *M6 = new NodeModel(Torus);
-	NodeModel *M7 = new NodeModel(Tetrahedron);
+//	NodeModel *M1 = new NodeModel(Teapot);
+//	NodeModel *M2 = new NodeModel(Sphere);
+//	NodeModel *M3 = new NodeModel(Cube);
+//	NodeModel *M4 = new NodeModel(Cone);
+//	NodeModel *M5 = new NodeModel(Cylinder);
+//	NodeModel *M6 = new NodeModel(Torus);
+//	NodeModel *M7 = new NodeModel(Tetrahedron);
 
 	
 	//insert the node into the graph
-	if (teapot){
-		SG->insertChildNodeHere(M1);
-	}
 //	SG->insertChildNodeHere(M2);
 //	SG->insertChildNodeHere(M3);
 //	SG->insertChildNodeHere(M4);
 //	SG->insertChildNodeHere(M5);
-	SG->insertChildNodeHere(M6);
+//	SG->insertChildNodeHere(M6);
 //	SG->insertChildNodeHere(M7);
 
 	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
@@ -100,9 +99,12 @@ void runGraph(){
 	//TRANSFORMATION
 	//a tranlation transformation node
 	//how much translation
-	tempVec3.x = 2;
-	tempVec3.y = 2;
-	tempVec3.z = 2;
+	tempVec3.x = 1000;
+	tempVec3.y = 10;
+	tempVec3.z = 10;
+	T1 = new NodeTransform(Translate, tempVec3);
+
+
 	//add the node as a child of root node
 //	T1 = new NodeTransform(Translate, tempVec3);
 //	//insert the node into the graph
@@ -125,16 +127,41 @@ void runGraph(){
 
 
 //	SG->insertChildNodeHere(M2);
-//	SG->insertChildNodeHere(M3);
+//	
 //	SG->insertChildNodeHere(M4);
 //	SG->insertChildNodeHere(M5);
-	SG->insertChildNodeHere(M6);
+//	SG->insertChildNodeHere(M6);
 //	SG->insertChildNodeHere(M7);
 
 	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
 	//DURING RUNTIME */
 	if (teapot){
+		teapot = false;
 		SG->insertChildNodeHere(M1);
+	}
+	else if (sphere){
+		sphere = false;
+		SG->insertChildNodeHere(M2);
+	}
+	else if (cube){
+		cube = false;
+		SG->insertChildNodeHere(M3);
+	}
+	else if (cone){
+		cone = false;
+		SG->insertChildNodeHere(M4);
+	}
+	else if (cylinder){
+		cylinder = false;
+		SG->insertChildNodeHere(M5);
+	}
+	else if (torus){
+		torus = false;
+		SG->insertChildNodeHere(M6);
+	}
+	else if (thedron){
+		thedron = false;
+		SG->insertChildNodeHere(M7);
 	}
 
 }
@@ -152,6 +179,30 @@ void keyboard(unsigned char key, int x, int y)
 		case 'a':
 		case 'A':
 			teapot = true;
+			break;
+		case 's':
+		case 'S':
+			sphere = true;
+			break;
+		case 'd':
+		case 'D':
+			cube = true;
+			break;		
+		case 'f':
+		case 'F':
+			cone = true;
+			break;
+		case 'g':
+		case 'G':
+			cylinder = true;
+			break;
+		case 'h':
+		case 'H':
+			torus = true;
+			break;
+		case 'j':
+		case 'J':
+			thedron = true;
 			break;
 	}
 	glutPostRedisplay();
@@ -243,9 +294,10 @@ void display(void)
 	drawAxis();
 	glColor3f(1,1,1);
 
-	runGraph();
+
 	//draw the sceneGraph
 	SG->draw();
+	runGraph();
 
 	glutSwapBuffers();
 }
