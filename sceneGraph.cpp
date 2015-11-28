@@ -8,6 +8,12 @@ SceneGraph::SceneGraph(){
 	printf("scene graph init done\n");
 }
 
+void SceneGraph::runGraph(){
+//	rootNode = new Node();
+	//currentNode = ->children->push_back(node);
+	printf("scene graph init done\n");
+}
+
 //Scene Graph Navigation
 //resets the current node to the root of the graph
 void SceneGraph::goToRoot(){

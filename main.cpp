@@ -10,7 +10,7 @@
 #  include <GL/glu.h>
 #  include <GL/freeglut.h>
 #endif
- 
+
 #include <stdio.h>
  #include <stdlib.h>
  #include <math.h>
@@ -27,12 +27,23 @@ int getID(){
 	return masterID++;
 }
 
+int child = 0;
+bool teapot = false;
+
 //sceneGraph
 #include "sceneGraph.h"
 #include "nodeGroup.h"
 #include "nodeModel.h"
 #include "nodeTransform.h"
 SceneGraph *SG;
+NodeTransform *T1;
+NodeModel *M1 = new NodeModel(Teapot);
+NodeModel *M2 = new NodeModel(Sphere);
+NodeModel *M3 = new NodeModel(Cube);
+NodeModel *M4 = new NodeModel(Cone);
+NodeModel *M5 = new NodeModel(Cylinder);
+NodeModel *M6 = new NodeModel(Torus);
+NodeModel *M7 = new NodeModel(Tetrahedron);
 
 //function which will populate a sample graph 
 void initGraph(){
@@ -47,7 +58,7 @@ void initGraph(){
 	tempVec3.y = 1;
 	tempVec3.z = 1;
 	//add the node as a child of root node
-	NodeTransform *T1 = new NodeTransform(Translate, tempVec3);
+	T1 = new NodeTransform(Translate, tempVec3);
 	//insert the node into the graph
 	SG->insertChildNodeHere(T1);
 	//go to the child node
@@ -67,16 +78,65 @@ void initGraph(){
 
 	
 	//insert the node into the graph
-//	SG->insertChildNodeHere(M1);
+	if (teapot){
+		SG->insertChildNodeHere(M1);
+	}
 //	SG->insertChildNodeHere(M2);
 //	SG->insertChildNodeHere(M3);
 //	SG->insertChildNodeHere(M4);
 //	SG->insertChildNodeHere(M5);
-//	SG->insertChildNodeHere(M6);
-	SG->insertChildNodeHere(M7);
+	SG->insertChildNodeHere(M6);
+//	SG->insertChildNodeHere(M7);
 
 	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
 	//DURING RUNTIME
+}
+
+void runGraph(){
+	//temporary place which holds out values
+	Vector3D tempVec3;
+
+
+	//TRANSFORMATION
+	//a tranlation transformation node
+	//how much translation
+	tempVec3.x = 2;
+	tempVec3.y = 2;
+	tempVec3.z = 2;
+	//add the node as a child of root node
+//	T1 = new NodeTransform(Translate, tempVec3);
+//	//insert the node into the graph
+//	SG->insertChildNodeHere(T1);
+//	//go to the child node
+//	SG->goToChild(0);
+
+
+	//MODEL
+	//we will now add a teapot model to the graph as a child of the
+	//transformation node
+//	NodeModel *M1 = new NodeModel(Teapot);
+//	NodeModel *M2 = new NodeModel(Sphere);
+//	NodeModel *M3 = new NodeModel(Cube);
+//	NodeModel *M4 = new NodeModel(Cone);
+//	NodeModel *M5 = new NodeModel(Cylinder);
+//	NodeModel *M6 = new NodeModel(Torus);
+//	NodeModel *M7 = new NodeModel(Tetrahedron);
+
+
+
+//	SG->insertChildNodeHere(M2);
+//	SG->insertChildNodeHere(M3);
+//	SG->insertChildNodeHere(M4);
+//	SG->insertChildNodeHere(M5);
+	SG->insertChildNodeHere(M6);
+//	SG->insertChildNodeHere(M7);
+
+	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
+	//DURING RUNTIME */
+	if (teapot){
+		SG->insertChildNodeHere(M1);
+	}
+
 }
 
 
@@ -88,6 +148,10 @@ void keyboard(unsigned char key, int x, int y)
 		case 'q':
 		case 27:
 			exit (0);
+			break;
+		case 'a':
+		case 'A':
+			teapot = true;
 			break;
 	}
 	glutPostRedisplay();
@@ -147,7 +211,7 @@ void init(void)
 	glEnable(GLUT_DEPTH);
 
 	//glClearColor(0, 0, 0, 0);
-	glClearColor(1, 1, 0.5, 0.5);
+	glClearColor(1, 1, 0.9, 0);
 	glColor3f(1, 1, 1);
 
 	glMatrixMode(GL_PROJECTION);
@@ -171,7 +235,7 @@ void display(void)
 	float origin[3] = {0,0,0};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1, 1, 0.5, 0.5);
+	glClearColor(1, 1, 0.9, 0.5);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -179,6 +243,7 @@ void display(void)
 	drawAxis();
 	glColor3f(1,1,1);
 
+	runGraph();
 	//draw the sceneGraph
 	SG->draw();
 

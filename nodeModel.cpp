@@ -40,7 +40,7 @@ void NodeModel::nodeSpecificCodeDown(){
 		glutSolidTorus(0.5,1,30, 30);
 		break;
 	case Tetrahedron:
-		glutWireTetrahedron();
+		glutSolidTetrahedron();
 		break;
 	case Custom:
 		//own mesh thing

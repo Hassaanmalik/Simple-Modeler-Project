@@ -239,7 +239,7 @@ void display(void)
 	gluLookAt(camPos[0], camPos[1], camPos[2], 0,0,0, 0,1,0);
 	glColor3f(1,1,1);
 
-	//glutSolidTeapot(1);
+//	glutSolidTeapot(1);
 
 
 	glBegin(GL_LINES);

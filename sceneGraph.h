@@ -6,7 +6,7 @@
 class SceneGraph{
 public:
 	SceneGraph();	//constructor
-
+	void runGraph();
 	//Scene Graph Navigation
 	void goToRoot();
 	void goToChild(int i);
