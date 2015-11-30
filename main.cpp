@@ -30,6 +30,9 @@ int getID(){
 int child = 0;
 bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
 
+double start[] ={0,0,0};
+double endArray[]={1,1,1};
+
 //sceneGraph
 #include "sceneGraph.h"
 #include "nodeGroup.h"
@@ -94,43 +97,7 @@ void initGraph(){
 }
 
 void runGraph(){
-	//temporary place which holds out values
-//	Vector3D tempVec3;
 
-
-	//TRANSFORMATION
-	//a tranlation transformation node
-	//how much translation
-
-//	SG->goToChild(0);
-
-
-	//MODEL
-	//we will now add a teapot model to the graph as a child of the
-	//transformation node
-//	NodeModel *M1 = new NodeModel(Teapot);
-//	NodeModel *M2 = new NodeModel(Sphere);
-//	NodeModel *M3 = new NodeModel(Cube);
-//	NodeModel *M4 = new NodeModel(Cone);
-//	NodeModel *M5 = new NodeModel(Cylinder);
-//	NodeModel *M6 = new NodeModel(Torus);
-//	NodeModel *M7 = new NodeModel(Tetrahedron);
-
-
-//	tempVec3.x = 2;
-//	tempVec3.y = 1;
-//	tempVec3.z = 1;
-
-
-//	SG->insertChildNodeHere(M2);
-//	
-//	SG->insertChildNodeHere(M4);
-//	SG->insertChildNodeHere(M5);
-//	SG->insertChildNodeHere(M6);
-//	SG->insertChildNodeHere(M7);
-
-	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
-	//DURING RUNTIME */
 	if (teapot){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -182,6 +149,92 @@ void runGraph(){
 		SG->insertChildNodeHere(M7);
 	}
 
+}
+
+bool Intersect(int x, int y){
+	printf("%i, %i\n", x, y);
+
+	//allocate matricies memory
+	double matModelView[16], matProjection[16]; 
+	int viewport[4]; 
+
+	//vectors
+
+
+	//grab the matricies
+	glGetDoublev(GL_MODELVIEW_MATRIX, matModelView); 
+	glGetDoublev(GL_PROJECTION_MATRIX, matProjection); 
+	glGetIntegerv(GL_VIEWPORT, viewport); 
+
+	//unproject the values
+	double winX = (double)x; 
+	double winY = viewport[3] - (double)y; 
+
+	// get point on the 'near' plane (third param is set to 0.0)
+	gluUnProject(winX, winY, 0.0, matModelView, matProjection, 
+         viewport, &start[0], &start[1], &start[2]); 
+
+	// get point on the 'far' plane (third param is set to 1.0)
+	gluUnProject(winX, winY, 1.0, matModelView, matProjection, 
+         viewport, &endArray[0], &endArray[1], &endArray[2]); 
+
+
+	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
+	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
+
+	//check for intersection against sphere!
+	//hurray!
+
+	double A, B, C;
+
+	double R0x, R0y, R0z;
+	double Rdx, Rdy, Rdz;
+
+	R0x = start[0];
+	R0y = start[1];
+	R0z = start[2];
+
+	Rdx = endArray[0] - start[0];
+	Rdy = endArray[1] - start[1];
+	Rdz = endArray[2] - start[2];
+
+	//magnitude!
+	double M = sqrt(Rdx*Rdx + Rdy*Rdy + Rdz* Rdz);
+
+	//unit vector!
+	Rdx /= M;
+	Rdy /= M;
+	Rdz /= M;
+
+	//A = Rd dot Rd
+	A = Rdx*Rdx + Rdy*Rdy + Rdz*Rdz;
+
+	double Btempx, Btempy, Btempz;
+	Btempx = R0x;
+	Btempy =  R0y;
+	Btempz =  R0z;
+
+	B = Btempx * Rdx + Btempy * Rdy + Btempz *Rdz;
+	B *= 2.0;
+
+	C = R0x*R0x + R0y*R0y + R0z* R0z - 1;
+
+
+	double sq = B*B  - 4*A*C;
+
+	double t0 = 0, t1 = 0;
+
+	if(sq < 0)
+		printf("no Intersection!!!\n");
+	else{
+		t0 = ((-1) * B + sqrt(sq))/(2*A);
+		t1 = ((-1) * B - sqrt(sq))/(2*A);
+
+		printf("Intersection at: t = %f, and t = %f\n", t0, t1);
+	}
+
+
+	return false; //else returns false
 }
 
 
@@ -296,6 +349,13 @@ void drawAxis()
 	glEnd();
 }
 
+void mouse(int button, int state, int x, int y){
+	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		Intersect(x,y);
+	}
+
+}
+
 void init(void)
 {	GLuint id = 1;
 
@@ -360,6 +420,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);	//registers "display" as the display callback function
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
+	glutMouseFunc(mouse);
 
 	init();
 
