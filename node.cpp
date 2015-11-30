@@ -8,6 +8,8 @@ Node::Node(){	//constructor
 	children = new vector<Node*>();
 	parent = 0;
 	currentChild = 0;
+	coordinates.x = getX(), coordinates.y = getY(), coordinates.z = getZ();
+
 	printf("node init done\n");
 }
 

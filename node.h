@@ -6,9 +6,14 @@
 //Nodes
 
 #include <vector>
+#include "structs.h"
 using namespace std;
 
 extern int getID();
+
+extern int getX();
+extern int getY();
+extern int getZ();
 
 //if you add more derived classes
 //add the types here
@@ -28,10 +33,8 @@ public:
 	int ID;
 	vector<Node*> *children;
 	Node* parent;
-	int currentChild;
-	int x;
-	int y;
-	int z;
+	int currentChild;	
+	Vector3D coordinates;
 
 	void draw(); 
 	virtual void nodeSpecificCodeDown();
