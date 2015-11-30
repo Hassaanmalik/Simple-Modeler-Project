@@ -29,6 +29,9 @@ public:
 	vector<Node*> *children;
 	Node* parent;
 	int currentChild;
+	int x;
+	int y;
+	int z;
 
 	void draw(); 
 	virtual void nodeSpecificCodeDown();

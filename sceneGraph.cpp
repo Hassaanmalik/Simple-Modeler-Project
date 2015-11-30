@@ -39,7 +39,10 @@ void SceneGraph::goToParent(){
 
 //inserts a child node into the current node
 void SceneGraph::insertChildNodeHere(Node *node){
-	currentNode->children->push_back(node);
+	 //add our parent to our child node
+    node->parent = currentNode;
+    //now lets add it to our children!
+    currentNode->children->push_back(node);
 }
 
 //deletes the current node, relinking the children as necessary

@@ -94,45 +94,10 @@ void initGraph(){
 }
 
 void runGraph(){
-	//temporary place which holds out values
-//	Vector3D tempVec3;
-
-
-	//TRANSFORMATION
-	//a tranlation transformation node
-	//how much translation
-
-//	SG->goToChild(0);
-
-
-	//MODEL
-	//we will now add a teapot model to the graph as a child of the
-	//transformation node
-//	NodeModel *M1 = new NodeModel(Teapot);
-//	NodeModel *M2 = new NodeModel(Sphere);
-//	NodeModel *M3 = new NodeModel(Cube);
-//	NodeModel *M4 = new NodeModel(Cone);
-//	NodeModel *M5 = new NodeModel(Cylinder);
-//	NodeModel *M6 = new NodeModel(Torus);
-//	NodeModel *M7 = new NodeModel(Tetrahedron);
-
-
-//	tempVec3.x = 2;
-//	tempVec3.y = 1;
-//	tempVec3.z = 1;
-
-
-//	SG->insertChildNodeHere(M2);
-//	
-//	SG->insertChildNodeHere(M4);
-//	SG->insertChildNodeHere(M5);
-//	SG->insertChildNodeHere(M6);
-//	SG->insertChildNodeHere(M7);
-
 	//THE SAME FLOW CAN BE USED TO DYNAMICALLY ADD NODES
 	//DURING RUNTIME */
 	if (teapot){
-		T1 = new NodeTransform(Translate, tempVec3);
+		T1 = new NodeTransform(Scale, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 
@@ -140,14 +105,14 @@ void runGraph(){
 		SG->insertChildNodeHere(M1);
 	}
 	else if (sphere){
-		T1 = new NodeTransform(Translate, tempVec3);
+		T1 = new NodeTransform(Scale, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		sphere = false;
 		SG->insertChildNodeHere(M2);
 	}
 	else if (cube){
-		T1 = new NodeTransform(Translate, tempVec3);
+		T1 = new NodeTransform(Scale, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cube = false;
@@ -223,10 +188,6 @@ void keyboard(unsigned char key, int x, int y)
 			thedron = true;
 			break;
 		case 'm':
-<<<<<<< HEAD
-=======
-			Vector3D tempVec3;
->>>>>>> 1d1a5d185297f3138ad86f9bbd6a49261cef9790
 			//TRANSFORMATION
 			//a tranlation transformation node
 			//how much translation
@@ -234,19 +195,11 @@ void keyboard(unsigned char key, int x, int y)
 			tempVec3.y = 5;
 			tempVec3.z = 5;
 			//add the node as a child of root node
-			T1 = new NodeTransform(Translate, tempVec3);
-<<<<<<< HEAD
+			T1 = new NodeTransform(Scale, tempVec3);
 	//		//insert the node into the graph
 			SG->insertChildNodeHere(T1);
 			//go to the child node
 			SG->goToChild(SG -> returnChildNode());
-=======
-			//insert the node into the graph
-			SG->insertChildNodeHere(T1);
-			//go to the child node
-			SG->goToChild(4);
-
->>>>>>> 1d1a5d185297f3138ad86f9bbd6a49261cef9790
 	}
 	glutPostRedisplay();
 }
@@ -282,6 +235,13 @@ void special(int key, int x, int y)
 
 	}
 	glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y){
+	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		printf("passive: %i,%i,%i\n", x, y);
+	}
+
 }
 
 void drawAxis()
@@ -363,6 +323,7 @@ int main(int argc, char** argv)
 	glutDisplayFunc(display);	//registers "display" as the display callback function
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
+	glutMouseFunc(mouse);
 
 	init();
 
