@@ -83,9 +83,9 @@ void initGraph(){
 	//TRANSFORMATION
 	//a tranlation transformation node
 	//how much translation
-	tempVec3.x = 1;
-	tempVec3.y = 1;
-	tempVec3.z = 1;
+	tempVec3.x = 0;
+	tempVec3.y = 0;
+	tempVec3.z = 0;
 	//add the node as a child of root node
 	T1 = new NodeTransform(Translate, tempVec3);
 	//insert the node into the graph
@@ -96,20 +96,13 @@ void initGraph(){
 
 void runGraph(){
 	if (teapot){
-		tempVec3.x = clickX;
-		tempVec3.y = clickY;
-		tempVec3.z = clickZ;
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		teapot = false;
 		SG->insertChildNodeHere(M1);
-		tempVec3.x = 1; tempVec3.y = 1; tempVec3.z = 1;
 	}
 	else if (sphere){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -118,9 +111,6 @@ void runGraph(){
 		SG->insertChildNodeHere(M2);
 	}
 	else if (cube){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -129,9 +119,6 @@ void runGraph(){
 		SG->insertChildNodeHere(M3);
 	}
 	else if (cone){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -140,9 +127,6 @@ void runGraph(){
 		SG->insertChildNodeHere(M4);
 	}
 	else if (cylinder){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -151,9 +135,6 @@ void runGraph(){
 		SG->insertChildNodeHere(M5);
 	}
 	else if (torus){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -162,9 +143,6 @@ void runGraph(){
 		SG->insertChildNodeHere(M6);
 	}
 	else if (thedron){
-		tempVec3.x = getX();
-		tempVec3.y = getY();
-		tempVec3.z = getZ();
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -172,6 +150,35 @@ void runGraph(){
 		thedron = false;
 		SG->insertChildNodeHere(M7);
 	}
+
+}
+
+void GetOGLPos(int x, int y){
+	tempVec3.x = 0;
+ 	tempVec3.y = 0;
+ 	tempVec3.z = 0;
+
+    GLint viewport[4];
+    GLdouble modelview[16];
+    GLdouble projection[16];
+    GLdouble winX, winY, winZ;
+    GLdouble posX, posY, posZ;
+ 
+    glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+    glGetDoublev( GL_PROJECTION_MATRIX, projection );
+    glGetIntegerv( GL_VIEWPORT, viewport );
+ 
+    winX = (double)x;
+    winY = (double)viewport[3] - (double)y;
+    glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+ 
+    gluUnProject( winX, winY, 0.8, modelview, projection, viewport, &posX, &posY, &posZ);
+ 
+ 	tempVec3.x = posX;
+ 	tempVec3.y = posY;
+ 	tempVec3.z = posZ;
+
+ 	printf("click point: %d,%d,%d\n", &posX, &posY, &posZ);
 
 }
 
@@ -383,10 +390,7 @@ void drawAxis()
 void mouse(int button, int state, int x, int y){
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		clicked = true;
-		Intersect(x,y);
-		clickX = getX();
-		clickY = getY();
-		clickZ = getZ();
+		GetOGLPos(x,y);
 	}
 
 }
@@ -395,7 +399,6 @@ void init(void)
 {	GLuint id = 1;
 
 	glEnable(GLUT_DEPTH);
-
 	//glClearColor(0, 0, 0, 0);
 	glClearColor(1, 1, 0.9, 0);
 	glColor3f(1, 1, 1);
@@ -429,8 +432,6 @@ void display(void)
 	drawAxis();
 	glColor3f(1,1,1);
 
-	printf("near point: %f,%f,%f\n", getX, getY, getZ);
-
 	//if (clicked){
 	//	clicked = false;
 		//draw the sceneGraph
@@ -447,7 +448,6 @@ int main(int argc, char** argv)
 	glutInit(&argc, argv);		//starts up GLUT
 	
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	
 	
 	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(50, 50);
