@@ -8,7 +8,7 @@ int location = 0;
 SceneGraph::SceneGraph(){
 	rootNode = new Node();
 	currentNode = rootNode;
-	printf("scene graph init done\n");
+	//printf("scene graph init done\n");
 }
 
 void SceneGraph::runGraph(){

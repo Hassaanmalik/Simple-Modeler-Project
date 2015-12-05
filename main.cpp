@@ -59,6 +59,9 @@ bool teapot = false, sphere = false, cube = false, cone = false, cylinder = fals
 double start[] ={0,0,0};
 double endArray[]={1,1,1};
 
+Vector3D locationArray[100];
+int numberOfObjects = -1;
+
 //sceneGraph
 #include "sceneGraph.h"
 #include "nodeGroup.h"
@@ -83,9 +86,9 @@ void initGraph(){
 	//TRANSFORMATION
 	//a tranlation transformation node
 	//how much translation
-	tempVec3.x = 0;
+	tempVec3.x = 1;
 	tempVec3.y = 0;
-	tempVec3.z = 0;
+	tempVec3.z = 1;
 	//add the node as a child of root node
 	T1 = new NodeTransform(Translate, tempVec3);
 	//insert the node into the graph
@@ -101,6 +104,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		teapot = false;
 		SG->insertChildNodeHere(M1);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (sphere){
 
@@ -109,6 +114,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		sphere = false;
 		SG->insertChildNodeHere(M2);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (cube){
 
@@ -117,6 +124,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		cube = false;
 		SG->insertChildNodeHere(M3);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (cone){
 
@@ -125,6 +134,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		cone = false;
 		SG->insertChildNodeHere(M4);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (cylinder){
 
@@ -133,6 +144,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		cylinder = false;
 		SG->insertChildNodeHere(M5);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (torus){
 
@@ -141,6 +154,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		torus = false;
 		SG->insertChildNodeHere(M6);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (thedron){
 
@@ -149,6 +164,8 @@ void runGraph(){
 		SG->goToChild(SG -> returnChildNode());
 		thedron = false;
 		SG->insertChildNodeHere(M7);
+		numberOfObjects +=1;
+		locationArray[numberOfObjects] = tempVec3;
 	}
 
 }
@@ -213,13 +230,6 @@ bool Intersect(int x, int y){
 	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
 	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
 
-
-	if (clicked == true){
-		setX(endArray[0]);
-		setY(endArray[1]);
-		setZ(endArray[2]);
-		clicked = false;
-	}
 	//check for intersection against sphere!
 	//hurray!
 
@@ -288,30 +298,37 @@ void keyboard(unsigned char key, int x, int y)
 		case 'a':
 		case 'A':
 			teapot = true;
+			runGraph();
 			break;
 		case 's':
 		case 'S':
 			sphere = true;
+			runGraph();
 			break;
 		case 'd':
 		case 'D':
 			cube = true;
+			runGraph();
 			break;		
 		case 'f':
 		case 'F':
 			cone = true;
+			runGraph();
 			break;
 		case 'g':
 		case 'G':
 			cylinder = true;
+			runGraph();
 			break;
 		case 'h':
 		case 'H':
 			torus = true;
+			runGraph();
 			break;
 		case 'j':
 		case 'J':
 			thedron = true;
+			runGraph();
 			break;
 		case 'm':
 			Vector3D tempVec3;
@@ -389,10 +406,9 @@ void drawAxis()
 
 void mouse(int button, int state, int x, int y){
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		clicked = true;
-		GetOGLPos(x,y);
+		Intersect(x,y);
 	}
-
+	glutPostRedisplay();
 }
 
 void init(void)
