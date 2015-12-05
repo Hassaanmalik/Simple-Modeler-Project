@@ -16,7 +16,7 @@ Node::Node(){	//constructor
 //==================================================================
 //function which does all the heavy lifting
 void Node::draw(){
-	printf("nodeType: %i\n", nodeType);
+	printf("nodeModel: %i\n", model);
 	//we entered node, so execute the commands
 	//ie. push matrix, apply material, draw geometry, etc.
 	nodeSpecificCodeDown();
@@ -26,6 +26,7 @@ void Node::draw(){
 	if (numberOfChildren > 0){
 		for (int i = 0; i < numberOfChildren; i++){
 			children->at(i)->draw();
+
 		}
 	}
 

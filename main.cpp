@@ -71,14 +71,6 @@ int numberOfObjects = -1;
 SceneGraph *SG;
 NodeTransform *T1;
 
-NodeModel *M1 = new NodeModel(Teapot);
-NodeModel *M2 = new NodeModel(Sphere);
-NodeModel *M3 = new NodeModel(Cube);
-NodeModel *M4 = new NodeModel(Cone);
-NodeModel *M5 = new NodeModel(Cylinder);
-NodeModel *M6 = new NodeModel(Torus);
-NodeModel *M7 = new NodeModel(Tetrahedron);
-
 Vector3D tempVec3;
 
 //function which will populate a sample graph 
@@ -103,6 +95,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		teapot = false;
+		NodeModel *M1 = new NodeModel(Teapot);
 		SG->insertChildNodeHere(M1);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -113,6 +106,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		sphere = false;
+		NodeModel *M2 = new NodeModel(Sphere);
 		SG->insertChildNodeHere(M2);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -123,6 +117,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cube = false;
+		NodeModel *M3 = new NodeModel(Cube);
 		SG->insertChildNodeHere(M3);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -133,6 +128,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cone = false;
+		NodeModel *M4 = new NodeModel(Cone);
 		SG->insertChildNodeHere(M4);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -143,6 +139,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cylinder = false;
+		NodeModel *M5 = new NodeModel(Cylinder);
 		SG->insertChildNodeHere(M5);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -153,6 +150,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		torus = false;
+		NodeModel *M6 = new NodeModel(Torus);
 		SG->insertChildNodeHere(M6);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
@@ -163,6 +161,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		thedron = false;
+		NodeModel *M7 = new NodeModel(Tetrahedron);
 		SG->insertChildNodeHere(M7);
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;

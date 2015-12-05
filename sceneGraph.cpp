@@ -39,6 +39,7 @@ void SceneGraph::goToParent(){
 
 //inserts a child node into the current node
 void SceneGraph::insertChildNodeHere(Node *node){
+//	printf("nodeType: %i\n", node->nodeType->whatType);
 	 //add our parent to our child node
     node->parent = currentNode;
     //now lets add it to our children!

@@ -164,6 +164,7 @@ bool Intersect(int x, int y){
 		t1 = ((-1) * B - sqrt(sq))/(2*A);
 
 		printf("Intersection at: t = %f, and t = %f\n", t0, t1);
+		
 	}
 
 
