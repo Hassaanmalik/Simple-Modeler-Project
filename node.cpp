@@ -9,6 +9,7 @@ Node::Node(){	//constructor
 	parent = 0;
 	currentChild = 0;
 	coordinates.x = getX(), coordinates.y = getY(), coordinates.z = getZ();
+	type = getType();
 
 	//printf("node init done\n");
 }

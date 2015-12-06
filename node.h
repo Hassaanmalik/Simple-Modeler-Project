@@ -14,6 +14,7 @@ extern int getID();
 extern int getX();
 extern int getY();
 extern int getZ();
+extern int getType();
 
 //if you add more derived classes
 //add the types here
@@ -35,6 +36,7 @@ public:
 	Node* parent;
 	int currentChild;	
 	Vector3D coordinates;
+	int type;
 
 	void draw(); 
 	virtual void nodeSpecificCodeDown();

@@ -53,6 +53,15 @@ void setZ (int z){
 	nodeZ = z;
 }
 
+int type;
+
+int getType(){
+	return type;
+}
+void setType (int t){
+	type = t;
+}
+
 int child = 0;
 bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
 
@@ -95,6 +104,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		teapot = false;
+		setType(1);
 		NodeModel *M1 = new NodeModel(Teapot);
 		SG->insertChildNodeHere(M1);
 		numberOfObjects +=1;
@@ -106,6 +116,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		sphere = false;
+		setType(2);
 		NodeModel *M2 = new NodeModel(Sphere);
 		SG->insertChildNodeHere(M2);
 		numberOfObjects +=1;
@@ -117,6 +128,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cube = false;
+		setType(3);
 		NodeModel *M3 = new NodeModel(Cube);
 		SG->insertChildNodeHere(M3);
 		numberOfObjects +=1;
@@ -128,6 +140,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cone = false;
+		setType(4);
 		NodeModel *M4 = new NodeModel(Cone);
 		SG->insertChildNodeHere(M4);
 		numberOfObjects +=1;
@@ -139,6 +152,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		cylinder = false;
+		setType(5);
 		NodeModel *M5 = new NodeModel(Cylinder);
 		SG->insertChildNodeHere(M5);
 		numberOfObjects +=1;
@@ -150,6 +164,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		torus = false;
+		setType(6);
 		NodeModel *M6 = new NodeModel(Torus);
 		SG->insertChildNodeHere(M6);
 		numberOfObjects +=1;
@@ -161,6 +176,7 @@ void runGraph(){
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
 		thedron = false;
+		setType(7);
 		NodeModel *M7 = new NodeModel(Tetrahedron);
 		SG->insertChildNodeHere(M7);
 		numberOfObjects +=1;
@@ -229,10 +245,15 @@ bool Intersect(int x, int y){
 	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
 	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
 
+	double px, py, pz;
+	px = start[0];
+	py = start[1];
+	pz = start[2];
+
 	//check for intersection against sphere!
 	//hurray!
 
-	double A, B, C;
+	double A, B, C, D;
 
 	double R0x, R0y, R0z;
 	double Rdx, Rdy, Rdz;
@@ -266,6 +287,27 @@ bool Intersect(int x, int y){
 
 	C = R0x*R0x + R0y*R0y + R0z* R0z - 1;
 
+	// calculate distance from the origin for D
+	D = (-1)*A*R0x + (-1)*B*R0y + (-1)*C*R0z;
+
+	// calculates t
+	double tN = -(A*R0x + B*R0y + C*R0z + D);
+	double tD = A*Rdx + B*Rdy + C*Rdz;
+	double t = tN / tD;
+
+
+	// check if N*Rd == 0 then no hit
+	if (tD == 0){
+		return false;
+	}
+	else {
+		double P = (R0x + R0y + R0z) + t*(Rdx + Rdy + Rdz);
+		printf("Intersection at: P = %f\n", P);
+		return true;
+	}
+
+	/*// N*Rd = 
+	// or t = ((-N*R0 + D)/N*Rd)
 
 	double sq = B*B  - 4*A*C;
 
@@ -281,7 +323,7 @@ bool Intersect(int x, int y){
 	}
 
 
-	return false; //else returns false
+	return false; //else returns false */
 }
 
 
