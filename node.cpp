@@ -17,7 +17,7 @@ Node::Node(){	//constructor
 //==================================================================
 //function which does all the heavy lifting
 void Node::draw(){
-	printf("nodeModel: %i\n", model);
+	//printf("nodeModel: %i\n", model);
 	//we entered node, so execute the commands
 	//ie. push matrix, apply material, draw geometry, etc.
 	nodeSpecificCodeDown();

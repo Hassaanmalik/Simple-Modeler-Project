@@ -250,13 +250,15 @@ bool Intersect(int x, int y){
 	py = start[1];
 	pz = start[2];
 
-	//check for intersection against sphere!
-	//hurray!
 
 	double A, B, C, D;
 
 	double R0x, R0y, R0z;
 	double Rdx, Rdy, Rdz;
+
+	float intX = locationArray[numberOfObjects].x;
+	float intY = locationArray[numberOfObjects].y;
+	float intZ = locationArray[numberOfObjects].z;
 
 	R0x = start[0];
 	R0y = start[1];
@@ -296,15 +298,39 @@ bool Intersect(int x, int y){
 	double t = tN / tD;
 
 
-	// check if N*Rd == 0 then no hit
-	if (tD == 0){
-		return false;
+	//check for intersection against sphere!
+	//hurray!
+	for(int i = 0; i <=numberOfObjects; i++){
+		printf("enter loop\n");
+/*		// check if N*Rd == 0 then no hit
+		if (tD == 0){
+			printf("missed");
+			return false;
+		}
+		else {
+			double P = (R0x + R0y + R0z) + t*(Rdx + Rdy + Rdz);
+			printf("Intersection at: P = %f\n", P);
+			return true;
+		}*/
+		double flipX = -1* endArray[0];
+		double flipY = -1* endArray[1];
+		double flipZ = -1* endArray[2];
+		printf("x: %f, y: %f,z: %f \n",intX,intY,intZ );
+		if (start[1] < intY < flipY && start[2] < intZ < flipZ){
+			printf("hit X\n");
+			return true;
+		}
+		if (start[0] < intX < flipX && start[2] < intZ < flipZ){
+			printf("hit Y\n");
+			return true;
+		}
+		if (start[0] < intX < flipX && start[1] < intY < flipY){
+			printf("hit Z\n");
+			return true;
+		}
 	}
-	else {
-		double P = (R0x + R0y + R0z) + t*(Rdx + Rdy + Rdz);
-		printf("Intersection at: P = %f\n", P);
-		return true;
-	}
+
+	
 
 	/*// N*Rd = 
 	// or t = ((-N*R0 + D)/N*Rd)
@@ -324,6 +350,7 @@ bool Intersect(int x, int y){
 
 
 	return false; //else returns false */
+
 }
 
 
@@ -403,27 +430,27 @@ void special(int key, int x, int y)
 	switch(key)
 	{
 		case GLUT_KEY_LEFT:
-			camPos[0]-=0.1;
+			camPos[0]-=1;
 			break;
 
 		case GLUT_KEY_RIGHT:
-			camPos[0]+=0.1;
+			camPos[0]+=1;
 			break;
 
 		case GLUT_KEY_UP:
-			camPos[2] -= 0.1;
+			camPos[2] -= 1;
 			break;
 
 		case GLUT_KEY_DOWN:
-			camPos[2] += 0.1;
+			camPos[2] += 1;
 			break;
 		
 		case GLUT_KEY_HOME:
-			camPos[1] += 0.1;
+			camPos[1] += 1;
 			break;
 
 		case GLUT_KEY_END:
-			camPos[1] -= 0.1;
+			camPos[1] -= 1;
 			break;
 
 	}
