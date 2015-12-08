@@ -62,14 +62,27 @@ void setType (int t){
 	type = t;
 }
 
+// lighting 
+float light_pos0[] = {0.0,10.0,0,1.0};
+float light_pos1[] = {10.0,10.0,-10,1.0};
+int l = 0;
+
 int child = 0;
 bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
+int objectType = 0;
 
 double start[] ={0,0,0};
 double endArray[]={1,1,1};
 
 Vector3D locationArray[100];
 int numberOfObjects = -1;
+
+float px, py, pz;
+float intX, intY, intZ;
+int selected;
+// faces for the cube
+int indices[6][4] = { {1, 2, 6, 5}, {1, 5, 4, 0}, {5, 6, 7, 4}, {2, 6, 7, 3}, {0, 4, 7, 3}, {1, 0, 3, 2} };
+
 
 //sceneGraph
 #include "sceneGraph.h"
@@ -99,7 +112,11 @@ void initGraph(){
 }
 
 void runGraph(){
-	if (teapot){
+	tempVec3.x = 0;
+	tempVec3.y = 0;
+	tempVec3.z = 0;
+
+	if (objectType== 1){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -110,8 +127,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (sphere){
-
+	else if (objectType == 2){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -122,8 +138,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (cube){
-
+	else if (objectType == 3){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -134,8 +149,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (cone){
-
+	else if (objectType == 4){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -146,8 +160,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (cylinder){
-
+	else if (objectType== 5){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -158,8 +171,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (torus){
-
+	else if (objectType== 6){
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
 		SG->goToChild(SG -> returnChildNode());
@@ -170,7 +182,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (thedron){
+	else if (objectType == 7){
 
 		T1 = new NodeTransform(Translate, tempVec3);
 		SG->insertChildNodeHere(T1);
@@ -182,7 +194,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-
+//	printf("number of objects %i\n", numberOfObjects);
 }
 
 void GetOGLPos(int x, int y){
@@ -245,7 +257,7 @@ bool Intersect(int x, int y){
 	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
 	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
 
-	double px, py, pz;
+	
 	px = start[0];
 	py = start[1];
 	pz = start[2];
@@ -256,9 +268,7 @@ bool Intersect(int x, int y){
 	double R0x, R0y, R0z;
 	double Rdx, Rdy, Rdz;
 
-	float intX = locationArray[numberOfObjects].x;
-	float intY = locationArray[numberOfObjects].y;
-	float intZ = locationArray[numberOfObjects].z;
+
 
 	R0x = start[0];
 	R0y = start[1];
@@ -300,34 +310,44 @@ bool Intersect(int x, int y){
 
 	//check for intersection against sphere!
 	//hurray!
-	for(int i = 0; i <=numberOfObjects; i++){
+	// will find the first top item meeting the criteria
+	for(int i = numberOfObjects; i >=0; i--){
+		selected = i;
 		printf("enter loop\n");
-/*		// check if N*Rd == 0 then no hit
-		if (tD == 0){
-			printf("missed");
-			return false;
-		}
-		else {
-			double P = (R0x + R0y + R0z) + t*(Rdx + Rdy + Rdz);
-			printf("Intersection at: P = %f\n", P);
-			return true;
-		}*/
+
+		intX = locationArray[i].x;
+		intY = locationArray[i].y;
+		intZ = locationArray[i].z;
+		
 		double flipX = -1* endArray[0];
 		double flipY = -1* endArray[1];
 		double flipZ = -1* endArray[2];
+
+		double xMin = intX -2, xMax = intX+2;
+		double yMin = intY - 2, yMax = intY+3;
+		double zMin = intZ - 3, zMax = intZ+3;
+
+		start[0] = abs(start[0]);
+		start[1] = abs(start[1]);
+		start[2] = abs(start[2]);
+
 		printf("x: %f, y: %f,z: %f \n",intX,intY,intZ );
-		if (start[1] < intY < flipY && start[2] < intZ < flipZ){
+		printf("xMin: %f, xMax: %f\n",xMin, xMax);
+		printf("yMin: %f, yMax: %f\n",yMin, yMax);
+		printf("zMin: %f, zMax: %f\n",zMin, zMax);
+		if ((yMin <= start[1]) && (start[1] <= yMax) && (zMin <= start[2]) && (start[2] <= zMax)){
 			printf("hit X\n");
 			return true;
 		}
-		if (start[0] < intX < flipX && start[2] < intZ < flipZ){
+		if ((xMin <= start[0]) && (start[0] <= xMax) && (zMin <= start[2]) && (start[2] <= zMax)){
 			printf("hit Y\n");
 			return true;
 		}
-		if (start[0] < intX < flipX && start[1] < intY < flipY){
+		if ((xMin <= start[0]) && (start[0] <= xMax) && (yMin <= start[1]) && (start[1] <= yMax)){
 			printf("hit Z\n");
 			return true;
 		}
+		return false;
 	}
 
 	
@@ -353,6 +373,36 @@ bool Intersect(int x, int y){
 
 }
 
+void insertItem(){
+	if (objectType == 1){ 
+		NodeModel *A = new NodeModel(Teapot);
+		SG->insertChildNodeHere(A); 
+	}
+	else if (objectType == 2){
+		NodeModel *B = new NodeModel(Sphere);
+		SG->insertChildNodeHere(B);
+	}
+	else if (objectType == 3){
+		NodeModel *C = new NodeModel(Cube);
+		SG->insertChildNodeHere(C);
+	}
+	else if (objectType == 4){
+		NodeModel *D = new NodeModel(Cone);
+		SG->insertChildNodeHere(D);
+	}
+	else if (objectType == 5){
+		NodeModel *E = new NodeModel(Cylinder);
+		SG->insertChildNodeHere(E);
+	}
+	else if (objectType == 6){
+		NodeModel *F = new NodeModel(Torus);
+		SG->insertChildNodeHere(F);
+	}
+	else if (objectType == 7){
+		NodeModel *G = new NodeModel(Tetrahedron);
+		SG->insertChildNodeHere(G);
+	}
+}
 
 //callbacks
 void keyboard(unsigned char key, int x, int y)
@@ -364,64 +414,161 @@ void keyboard(unsigned char key, int x, int y)
 			exit (0);
 			break;
 		case 'a':
-		case 'A':
-			teapot = true;
+		case 'A':		// for teapot
+			objectType = 1;
 			runGraph();
+			glutPostRedisplay();
 			break;
-		case 's':
+		case 's':		// for sphere
 		case 'S':
-			sphere = true;
+			objectType = 2;
 			runGraph();
+			glutPostRedisplay();
 			break;
-		case 'd':
+		case 'd':		// for cube
 		case 'D':
-			cube = true;
+			objectType = 3;
 			runGraph();
+			glutPostRedisplay();
 			break;		
-		case 'f':
+		case 'f':		// for cone
 		case 'F':
-			cone = true;
+			objectType = 4;
 			runGraph();
+			glutPostRedisplay();
 			break;
 		case 'g':
-		case 'G':
-			cylinder = true;
+		case 'G':		// for cylinder
+			objectType = 5;
 			runGraph();
+			glutPostRedisplay();
 			break;
 		case 'h':
-		case 'H':
-			torus = true;
+		case 'H':		// for torus
+			objectType = 6;
 			runGraph();
+			glutPostRedisplay();
 			break;
 		case 'j':
-		case 'J':
-			thedron = true;
+		case 'J':		// for tetrehedron
+			objectType = 7;
 			runGraph();
+			glutPostRedisplay();
 			break;
-		case 'm':
-			Vector3D tempVec3;
-
-			//TRANSFORMATION
-			//a tranlation transformation node
-			//how much translation
-			tempVec3.x = 5;
-			tempVec3.y = 5;
-			tempVec3.z = 5;
+		case 't':		// translate
+			Vector3D transform;
+			transform.x = 1;
+			transform.y = 1;
+			transform.z = 1;
 			//add the node as a child of root node
-			T1 = new NodeTransform(Translate, tempVec3);
-			//insert the node into the graph
+			selected = SG -> returnChildNode();
+			objectType= SG -> returnType();
+			SG -> deleteThisNode(selected);
+		//	printf("selected:%i\n", type);
+			T1 = new NodeTransform(Translate, transform);
+			SG->goToChild(selected);
 			SG->insertChildNodeHere(T1);
-			//go to the child node
 			SG->goToChild(SG -> returnChildNode());
+			insertItem();			
 
-			//insert the node into the graph
+			// need to delete old item after
+			// update locations array
+			
+			transform.x -=1;
+			transform.y -=1;
+			transform.z -=1;
+			glutPostRedisplay(); 
+			break;
+		case 'r':		//rotate
+			Vector4D rotate;
+			rotate.w = 10;
+			rotate.x = 1;
+			rotate.y = 1;
+			rotate.z = 1;
+			//add the node as a child of root node
+			selected = SG -> returnChildNode();
+			objectType= SG -> returnType();
+			SG -> deleteThisNode(selected);
+		//	printf("selected:%i\n", type);
+			T1 = new NodeTransform(Rotate, rotate);
+			SG->goToChild(selected);
 			SG->insertChildNodeHere(T1);
-			//go to the child node
-			SG->goToChild(4);
+			insertItem();			
 
+			// need to delete old item after
+			// update locations array
+			
+			rotate.w -=1;
+			rotate.x -=1;
+			rotate.y -=1;
+			rotate.z -=1;
+			glutPostRedisplay(); 
+			break;
+		case 'y':		// scale
+			Vector3D scale;
+			scale.x = 1.5;
+			scale.y = 1.5;
+			scale.z = 1.5;
+			//add the node as a child of root node
+			selected = SG -> returnChildNode();
+			objectType= SG -> returnType();
+			SG -> deleteThisNode(selected);
+		//	printf("selected:%i\n", type);
+			T1 = new NodeTransform(Scale, scale);
+			SG->goToChild(selected);
+			SG->insertChildNodeHere(T1);
+			insertItem();			
+
+			// need to delete old item after
+			// update locations array
+			
+			scale.x -=1;
+			scale.y -=1;
+			scale.z -=1;
+			glutPostRedisplay(); 
+			break;
+		case 'l':
+		case 'L':
+			l++;
+			if (l % 2 == 0)	{				
+				glDisable(GL_LIGHTING);
+			}			
+			else{
+				glEnable(GL_LIGHTING);
+			}
+			glutPostRedisplay();
+			break;
+		   // if 'j' -> decrease light 1 position
+        case 'n':
+        case 'N':
+            light_pos0[0] -= 3;
+            light_pos1[0] -= 3;
+            glutPostRedisplay();
+            break;
+            // if 'u' -> increase light 1 position
+        case 'u':
+        case 'U':
+            light_pos0[0] += 3;
+            light_pos1[0] += 3;
+            glutPostRedisplay();
+            break;
+            // if 'h' -> increase light 2 position
+        case 'k':
+        case 'K':
+            light_pos0[2] += 3;
+            light_pos1[2] += 3;
+            glutPostRedisplay();
+            break;
+            // if 'k' -> decrease light 2 position
+        case 'I':
+            light_pos0[2] -= 3;
+            light_pos1[2] -= 3;
+            glutPostRedisplay();
+            break;
+		default: break;
+		glutPostRedisplay();
 
 	}
-	glutPostRedisplay();
 }
 
 void special(int key, int x, int y)
@@ -472,9 +619,49 @@ void drawAxis()
 	glEnd();
 }
 
+// draws the cube for each point which has a wall
+void drawWireFrame(float x, float y, float z){
+	// the vertices as computed from the x and z coordinates
+	printf("px: %f, py: %f, pz: %f\n",x,y,z);
+	float n = 1;
+	float verts [8][3] = {{x-n,y-n,z+n},{x-n,y+n,z+n},{x+n,y+n,z+n},{x+n,y-n, z+n},{x-n,y-n,z-n},{x-n,y+n,z-n},{x+n,y+n,z-n},{x+n,y-n,z-n}};
+//	float verts[8][3] = { {-0.5,-0.5,0.5},{-0.5,0.5,0.5}, {0.5,0.5,0.5}, {0.5,-0.5,0.5}, {-0.5,-0.5,-0.5}, {-0.5,0.5,-0.5}, {0.5,0.5,-0.5}, {0.5,-0.5,-0.5} };
+
+	for (int i = 0; i < 8; i++){
+		printf("px: %f, py: %f, pz: %f\n",verts[i][0],verts[i][1],verts[i][2]);
+	}
+	// for each face
+	glColor3f(0,1,0);
+			glutSolidCube(1);
+	for (int index = 0; index < 6; index ++){
+		glBegin(GL_POLYGON);	
+			// for each four corners of a face
+			for(int i = 0; i < 4; i++){		
+				int vIndex = indices[index][i]; 
+				float a = verts[vIndex][0];
+				float b = verts[vIndex][1];
+				float c = verts[vIndex][2];
+			//	printf("px: %i\n",vIndex);
+		//		printf("px: %f, py: %f, pz: %f\n",a,b,c);
+				glVertex3fv(verts[vIndex]);
+			}
+		glEnd();
+	}
+	glFlush(); 
+	glutPostRedisplay();
+}
+
 void mouse(int button, int state, int x, int y){
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		Intersect(x,y);
+		bool hit = Intersect(x,y);
+		printf("hit\n");
+		hit = true;
+		intX = 1; intY = 1; intZ = 1;
+		if (hit){
+		//	printf("px: %f, pz: %f\n",px, pz);
+		//	drawWireFrame(intX, intY, intZ);
+			drawWireFrame(1,1,1);
+	}
 	}
 	glutPostRedisplay();
 }
@@ -491,8 +678,39 @@ void init(void)
 	glLoadIdentity();
 	gluPerspective(45, 1, 1, 100);
 
+	// enable two light soruces
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+
+	// set first values
+	float amb0[4] = {1, 1, 1, 1};
+	float diff0[4] = {1, 0, 0, 1};
+	float spec0[4] = {1, 1, 1, 1};
+
+	// set the values for the first light source
+	glLightfv(GL_LIGHT0, GL_POSITION, light_pos0);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, amb0);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diff0);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, spec0);
+
+	// set the second values
+	float amb1[4] = {1, 1, 1, 1};
+	float diff1[4] = {1, 0, 0, 1};
+	float spec1[4] = {1, 1, 1, 1};
+
+	// set the values for the second light source
+	glLightfv(GL_LIGHT1, GL_POSITION, light_pos1);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, diff1);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, spec1);
+
+	// turn on backface culling
+    glCullFace(GL_BACK);
+   	glEnable(GL_CULL_FACE);
+
 	//init our scenegraph
 	SG = new SceneGraph();
+
 
 	//add various nodes
 	//initializing our world
@@ -505,6 +723,12 @@ void init(void)
  */
 void display(void)
 {
+	// set lighting values
+	float m_amb [] ={0.25f, 0.25f, 0.25f, 1.0f  };
+	float m_dif []={0.4f, 0.4f, 0.4f, 1.0f };
+	float m_spec [] ={0.774597f, 0.774597f, 0.774597f, 1.0f };
+	float shiny = 76.8;
+
 	float origin[3] = {0,0,0};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -516,14 +740,19 @@ void display(void)
 	drawAxis();
 	glColor3f(1,1,1);
 
-	//if (clicked){
-	//	clicked = false;
-		//draw the sceneGraph
-		SG->draw();
-		runGraph();
-	//}
+	SG->draw();
+	runGraph();
+
+	// apply light
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, m_amb);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, m_dif);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_spec);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shiny);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_pos0);
+	glLightfv(GL_LIGHT1, GL_POSITION, light_pos1);
 
 	glutSwapBuffers();
+	//glutPostRedisplay();
 }
 
 /* main function - program entry point */

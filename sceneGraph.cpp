@@ -4,6 +4,7 @@
 #include "structs.h"
 
 int location = 0;
+int typeItem; 
 
 SceneGraph::SceneGraph(){
 	rootNode = new Node();
@@ -23,13 +24,17 @@ void SceneGraph::goToRoot(){
 	currentNode = rootNode;
 }
 
+
 //moves to a child node i
 void SceneGraph::goToChild(int i){
-	if (i < currentNode->children->size() && i >= 0)
+	if (i < currentNode->children->size() && i >= 0){
 		currentNode = currentNode->children->at(i);
+		typeItem = currentNode -> type;
+	}
 	else
 		printf("child out of range");
-	location = i;
+	if (i > location){location = i+1;}
+	//i = location;
 }
 
 void SceneGraph::goToParent(){
@@ -47,8 +52,15 @@ void SceneGraph::insertChildNodeHere(Node *node){
 }
 
 //deletes the current node, relinking the children as necessary
-void SceneGraph::deleteThisNode(){
+int SceneGraph::deleteThisNode(int i){
+//	goToChild(i) ->isDrawable = true;
+//	return goToChild(i) -> currentNode -> type;
+	return 1;
 	//TODO
+}
+
+int SceneGraph::returnType(){
+	return typeItem;
 }
 
 int SceneGraph::returnChildNode(){

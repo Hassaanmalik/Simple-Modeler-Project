@@ -39,7 +39,13 @@ void NodeModel::nodeSpecificCodeDown(){
 		break;
 	case Cylinder:
 		glColor3f(1,0.5,1);
-		glutSolidCone(1,3,30, 10);
+		GLUquadricObj *quadratic;
+		quadratic = gluNewQuadric();
+		glutSolidCone(1,1,40,1);
+		glRotatef(180, 1.0, 0.0, 0.0);
+		glTranslatef(0,0,-2);
+		glutSolidCone(1,1,40,1);
+		gluCylinder(quadratic,1,1, 2, 40,5);
 		break;
 	case Torus:
 		glColor3f(0,1,0);

@@ -12,7 +12,8 @@ public:
 	void goToChild(int i);
 	void goToParent();
 	void insertChildNodeHere(Node *node);
-	void deleteThisNode();
+	int deleteThisNode(int i);
+	int returnType();
 
 	//Scene Graph Draw
 	void draw();
