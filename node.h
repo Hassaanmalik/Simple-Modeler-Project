@@ -37,6 +37,7 @@ public:
 	int currentChild;	
 	Vector3D coordinates;
 	int type;
+	bool frameOn;
 
 	void draw(); 
 	virtual void nodeSpecificCodeDown();

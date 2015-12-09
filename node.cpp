@@ -10,6 +10,7 @@ Node::Node(){	//constructor
 	currentChild = 0;
 	coordinates.x = getX(), coordinates.y = getY(), coordinates.z = getZ();
 	type = getType();
+	frameOn = false;
 
 	//printf("node init done\n");
 }

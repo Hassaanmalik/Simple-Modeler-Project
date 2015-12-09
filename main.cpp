@@ -194,37 +194,8 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-//	printf("number of objects %i\n", numberOfObjects);
 }
 
-void GetOGLPos(int x, int y){
-	tempVec3.x = 0;
- 	tempVec3.y = 0;
- 	tempVec3.z = 0;
-
-    GLint viewport[4];
-    GLdouble modelview[16];
-    GLdouble projection[16];
-    GLdouble winX, winY, winZ;
-    GLdouble posX, posY, posZ;
- 
-    glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
-    glGetDoublev( GL_PROJECTION_MATRIX, projection );
-    glGetIntegerv( GL_VIEWPORT, viewport );
- 
-    winX = (double)x;
-    winY = (double)viewport[3] - (double)y;
-    glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
- 
-    gluUnProject( winX, winY, 0.8, modelview, projection, viewport, &posX, &posY, &posZ);
- 
- 	tempVec3.x = posX;
- 	tempVec3.y = posY;
- 	tempVec3.z = posZ;
-
- 	printf("click point: %d,%d,%d\n", &posX, &posY, &posZ);
-
-}
 
 bool Intersect(int x, int y){
 	printf("%i, %i\n", x, y);
@@ -632,7 +603,7 @@ void drawWireFrame(float x, float y, float z){
 	}
 	// for each face
 	glColor3f(0,1,0);
-			glutSolidCube(1);
+	glutSolidCube(1);
 	for (int index = 0; index < 6; index ++){
 		glBegin(GL_POLYGON);	
 			// for each four corners of a face
@@ -647,17 +618,15 @@ void drawWireFrame(float x, float y, float z){
 			}
 		glEnd();
 	}
-	glFlush(); 
 	glutPostRedisplay();
 }
 
 void mouse(int button, int state, int x, int y){
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		bool hit = Intersect(x,y);
-		printf("hit\n");
-		hit = true;
+		//hit = true;
 		intX = 1; intY = 1; intZ = 1;
-		if (hit){
+		if (hit==true){
 		//	printf("px: %f, pz: %f\n",px, pz);
 		//	drawWireFrame(intX, intY, intZ);
 			drawWireFrame(1,1,1);
