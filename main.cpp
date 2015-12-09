@@ -75,7 +75,7 @@ double start[] ={0,0,0};
 double endArray[]={1,1,1};
 
 Vector3D locationArray[100];
-int numberOfObjects = -1;
+int numberOfObjects = 0;
 
 float px, py, pz;
 float intX, intY, intZ;
@@ -92,22 +92,29 @@ int indices[6][4] = { {1, 2, 6, 5}, {1, 5, 4, 0}, {5, 6, 7, 4}, {2, 6, 7, 3}, {0
 
 SceneGraph *SG;
 NodeTransform *T1;
+NodeTransform *S1;
+NodeTransform *R1;
 
-Vector3D tempVec3;
+Vector3D tempVec3, vec3S;
+Vector4D vec4R;
 
 //function which will populate a sample graph 
 void initGraph(){
 	//TRANSFORMATION
 	//a tranlation transformation node
 	//how much translation
-	tempVec3.x = 1;
-	tempVec3.y = 0;
-	tempVec3.z = 1;
+//	tempVec3.x = 1;
+//	tempVec3.y = 0;
+//	tempVec3.z = 1;
 	//add the node as a child of root node
-	T1 = new NodeTransform(Translate, tempVec3);
+//	T1 = new NodeTransform(Translate, tempVec3);
 	//insert the node into the graph
-	SG->insertChildNodeHere(T1);
+//	SG->insertChildNodeHere(T1);
 	//go to the child node
+
+	NodeGroup *G1 = new NodeGroup();
+	//insert the node into the graph
+	SG->insertChildNodeHere(G1);
 	SG->goToChild(0);
 }
 
@@ -116,10 +123,27 @@ void runGraph(){
 	tempVec3.y = 0;
 	tempVec3.z = 0;
 
-	if (objectType== 1){
+	vec3S.x = 1;
+	vec3S.y = 1;
+	vec3S.z = 1;
+
+	vec4R.w = 1;
+	vec4R.x = 1;
+	vec4R.y = 1;
+	vec4R.z = 1;
+
+	if (teapot){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		teapot = false;
 		setType(1);
 		NodeModel *M1 = new NodeModel(Teapot);
@@ -129,8 +153,16 @@ void runGraph(){
 	}
 	else if (objectType == 2){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		sphere = false;
 		setType(2);
 		NodeModel *M2 = new NodeModel(Sphere);
@@ -140,9 +172,16 @@ void runGraph(){
 	}
 	else if (objectType == 3){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
-		cube = false;
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		setType(3);
 		NodeModel *M3 = new NodeModel(Cube);
 		SG->insertChildNodeHere(M3);
@@ -151,8 +190,16 @@ void runGraph(){
 	}
 	else if (objectType == 4){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		cone = false;
 		setType(4);
 		NodeModel *M4 = new NodeModel(Cone);
@@ -162,8 +209,16 @@ void runGraph(){
 	}
 	else if (objectType== 5){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		cylinder = false;
 		setType(5);
 		NodeModel *M5 = new NodeModel(Cylinder);
@@ -173,8 +228,16 @@ void runGraph(){
 	}
 	else if (objectType== 6){
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		torus = false;
 		setType(6);
 		NodeModel *M6 = new NodeModel(Torus);
@@ -183,10 +246,17 @@ void runGraph(){
 		locationArray[numberOfObjects] = tempVec3;
 	}
 	else if (objectType == 7){
-
 		T1 = new NodeTransform(Translate, tempVec3);
+		S1 = new NodeTransform(Scale, vec3S);
+		R1 = new NodeTransform(Rotate, vec4R);
+		SG->goToRoot();
+		SG->goToChild(0);
 		SG->insertChildNodeHere(T1);
-		SG->goToChild(SG -> returnChildNode());
+		SG->goToChild(numberOfObjects);
+		SG->insertChildNodeHere(S1);
+		SG->goToChild(0);
+		SG->insertChildNodeHere(R1);
+		SG->goToChild(0);
 		thedron = false;
 		setType(7);
 		NodeModel *M7 = new NodeModel(Tetrahedron);
@@ -194,6 +264,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
+	glutPostRedisplay();
 }
 
 
@@ -282,7 +353,7 @@ bool Intersect(int x, int y){
 	//check for intersection against sphere!
 	//hurray!
 	// will find the first top item meeting the criteria
-	for(int i = numberOfObjects; i >=0; i--){
+/*	for(int i = numberOfObjects; i >=0; i--){
 		selected = i;
 		printf("enter loop\n");
 
@@ -319,11 +390,11 @@ bool Intersect(int x, int y){
 			return true;
 		}
 		return false;
-	}
+	} */
 
 	
 
-	/*// N*Rd = 
+	//// N*Rd = 
 	// or t = ((-N*R0 + D)/N*Rd)
 
 	double sq = B*B  - 4*A*C;
@@ -340,39 +411,42 @@ bool Intersect(int x, int y){
 	}
 
 
-	return false; //else returns false */
+	return false; //else returns false 
 
 }
 
-void insertItem(){
-	if (objectType == 1){ 
-		NodeModel *A = new NodeModel(Teapot);
-		SG->insertChildNodeHere(A); 
-	}
-	else if (objectType == 2){
-		NodeModel *B = new NodeModel(Sphere);
-		SG->insertChildNodeHere(B);
-	}
-	else if (objectType == 3){
-		NodeModel *C = new NodeModel(Cube);
-		SG->insertChildNodeHere(C);
-	}
-	else if (objectType == 4){
-		NodeModel *D = new NodeModel(Cone);
-		SG->insertChildNodeHere(D);
-	}
-	else if (objectType == 5){
-		NodeModel *E = new NodeModel(Cylinder);
-		SG->insertChildNodeHere(E);
-	}
-	else if (objectType == 6){
-		NodeModel *F = new NodeModel(Torus);
-		SG->insertChildNodeHere(F);
-	}
-	else if (objectType == 7){
-		NodeModel *G = new NodeModel(Tetrahedron);
-		SG->insertChildNodeHere(G);
-	}
+
+void transformObject(){
+	T1 = new NodeTransform(Translate, tempVec3);
+	SG -> goToRoot();
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->insertChildNodeHere(T1);
+	glutPostRedisplay();
+//	SG->goToChild(SG -> returnChildNode());
+}
+
+void rotateObject(){
+	R1 = new NodeTransform(Rotate, vec4R);
+	SG -> goToRoot();
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->insertChildNodeHere(R1);
+	glutPostRedisplay();
+//	SG->goToChild(SG -> returnChildNode());
+}
+
+void scaleObject(){
+	S1 = new NodeTransform(Scale, vec3S);
+	SG -> goToRoot();
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->goToChild(0);
+	SG->insertChildNodeHere(S1);
+	glutPostRedisplay();
+//	SG->goToChild(SG -> returnChildNode());
 }
 
 //callbacks
@@ -387,6 +461,7 @@ void keyboard(unsigned char key, int x, int y)
 		case 'a':
 		case 'A':		// for teapot
 			objectType = 1;
+			teapot = true;
 			runGraph();
 			glutPostRedisplay();
 			break;
@@ -426,77 +501,79 @@ void keyboard(unsigned char key, int x, int y)
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 't':		// translate
-			Vector3D transform;
-			transform.x = 1;
-			transform.y = 1;
-			transform.z = 1;
-			//add the node as a child of root node
-			selected = SG -> returnChildNode();
-			objectType= SG -> returnType();
-			SG -> deleteThisNode(selected);
-		//	printf("selected:%i\n", type);
-			T1 = new NodeTransform(Translate, transform);
-			SG->goToChild(selected);
-			SG->insertChildNodeHere(T1);
-			SG->goToChild(SG -> returnChildNode());
-			insertItem();			
-
-			// need to delete old item after
-			// update locations array
-			
-			transform.x -=1;
-			transform.y -=1;
-			transform.z -=1;
-			glutPostRedisplay(); 
+		case 'v':		// translate on +x 
+		//	Vector3D transform;
+			tempVec3.x = 1;
+			tempVec3.y = 0;
+			tempVec3.z = 0;
+			transformObject();
+		case 'w':		// translate on -x
+		//	Vector3D transform;
+			tempVec3.x = -1;
+			tempVec3.y = 0;
+			tempVec3.z = 0;
+			transformObject();
 			break;
-		case 'r':		//rotate
-			Vector4D rotate;
-			rotate.w = 10;
-			rotate.x = 1;
-			rotate.y = 1;
-			rotate.z = 1;
-			//add the node as a child of root node
-			selected = SG -> returnChildNode();
-			objectType= SG -> returnType();
-			SG -> deleteThisNode(selected);
-		//	printf("selected:%i\n", type);
-			T1 = new NodeTransform(Rotate, rotate);
-			SG->goToChild(selected);
-			SG->insertChildNodeHere(T1);
-			insertItem();			
-
-			// need to delete old item after
-			// update locations array
-			
-			rotate.w -=1;
-			rotate.x -=1;
-			rotate.y -=1;
-			rotate.z -=1;
-			glutPostRedisplay(); 
+		case 'e':		// translate on + y
+		//	Vector3D transform;
+			tempVec3.x = 0;
+			tempVec3.y = 1;
+			tempVec3.z = 0;
+			transformObject();
 			break;
-		case 'y':		// scale
-			Vector3D scale;
-			scale.x = 1.5;
-			scale.y = 1.5;
-			scale.z = 1.5;
-			//add the node as a child of root node
-			selected = SG -> returnChildNode();
-			objectType= SG -> returnType();
-			SG -> deleteThisNode(selected);
-		//	printf("selected:%i\n", type);
-			T1 = new NodeTransform(Scale, scale);
-			SG->goToChild(selected);
-			SG->insertChildNodeHere(T1);
-			insertItem();			
-
-			// need to delete old item after
-			// update locations array
-			
-			scale.x -=1;
-			scale.y -=1;
-			scale.z -=1;
-			glutPostRedisplay(); 
+		case 'r':		// translate on -y
+		//	Vector3D transform;
+			tempVec3.x = 0;
+			tempVec3.y = -1;
+			tempVec3.z = 0;
+			transformObject();
+			break;
+		case 't':		// translate on +z
+		//	Vector3D transform;
+			tempVec3.x = 0;
+			tempVec3.y = 0;
+			tempVec3.z = 1;
+			transformObject();
+			break;
+		case 'y':		// translate on -z
+		//	Vector3D transform;
+			tempVec3.x = 0;
+			tempVec3.y = 0;
+			tempVec3.z = -1;
+			transformObject();
+			break;
+		case 'z':		//rotate on x
+			vec4R.w= 10;
+			vec4R.x = 1;
+			vec4R.y = 0;
+			vec4R.z = 0;
+			rotateObject();
+			break;
+		case 'x':		//rotate on y
+			vec4R.w= 10;
+			vec4R.x = 0;
+			vec4R.y = 1;
+			vec4R.z = 0;
+			rotateObject();
+			break;
+		case 'c':		//rotate on z
+			vec4R.w= 10;
+			vec4R.x = 0;
+			vec4R.y = 0;
+			vec4R.z = 1;
+			rotateObject();
+			break;
+		case 'p':		// scale
+			vec3S.x = 1.2;
+			vec3S.y = 1.2;
+			vec3S.z = 1.2;			
+			scaleObject();
+			break;
+		case 'o':		// scale
+			vec3S.x = 0.8;
+			vec3S.y = 0.8;
+			vec3S.z = 0.8;			
+			scaleObject();
 			break;
 		case 'l':
 		case 'L':
@@ -630,8 +707,8 @@ void mouse(int button, int state, int x, int y){
 		//	printf("px: %f, pz: %f\n",px, pz);
 		//	drawWireFrame(intX, intY, intZ);
 			drawWireFrame(1,1,1);
-	}
-	}
+	} 
+	} 
 	glutPostRedisplay();
 }
 
@@ -710,7 +787,8 @@ void display(void)
 	glColor3f(1,1,1);
 
 	SG->draw();
-	runGraph();
+	printf("End of iteration\n");
+//	runGraph();
 
 	// apply light
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, m_amb);

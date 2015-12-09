@@ -18,20 +18,24 @@ Node::Node(){	//constructor
 //==================================================================
 //function which does all the heavy lifting
 void Node::draw(){
-	//printf("nodeModel: %i\n", model);
+	printf("current node: %i %i\n", nodeType, ID);
 	//we entered node, so execute the commands
 	//ie. push matrix, apply material, draw geometry, etc.
-	nodeSpecificCodeDown();
 
+	nodeSpecificCodeDown();
 	//recursively call our children
 	const int numberOfChildren = children->size();
+	printf("number of children %i\n", numberOfChildren);
+	printf("end \n");
+
 	if (numberOfChildren > 0){
 		for (int i = 0; i < numberOfChildren; i++){
-			children->at(i)->draw();
+			printf("           child ID: %i typeID: %i \n", children->at(i)->ID, children->at(i)->nodeType);
 
+			children->at(i)->draw();
 		}
 	}
-
+	printf("   end \n");
 	//we are exiting the node, so execute the commands
 	//ie. pop matrix, etc.
 	nodeSpecificCodeUp();
