@@ -67,6 +67,12 @@ float light_pos0[] = {0.0,10.0,0,1.0};
 float light_pos1[] = {10.0,10.0,-10,1.0};
 int l = 0;
 
+//material
+float m_amb [] ={0.25f, 0.25f, 0.25f, 1.0f  };
+float m_dif []={0.4f, 0.4f, 0.4f, 1.0f };
+float m_spec [] ={0.774597f, 0.774597f, 0.774597f, 1.0f };
+float shiny = 76.8;
+
 int child = 0;
 bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
 int objectType = 0;
@@ -454,6 +460,81 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
+		case '1':
+			m_amb[0] = 0.25f;
+			m_amb[1] = 0.25f;
+			m_amb[2] = 0.25f;
+			m_amb[3] = 1.0f;
+			m_dif[0] = 0.4f;
+			m_dif[1] = 0.4f;
+			m_dif[2] = 0.4f;
+			m_dif[3] = 1.0f;
+			m_spec[0] = 0.774597f;
+			m_spec[1] = 0.774597f;
+			m_spec[2] = 0.774597f;
+			m_spec[3] = 1.0f;
+			shiny = 76.8;
+			break;
+		case '2':
+			m_amb[0] = 0.329412f;
+			m_amb[1] = 0.223529f;
+			m_amb[2] = 0.027451f;
+			m_amb[3] = 1.0f;
+			m_dif[0] = 0.780392f;
+			m_dif[1] = 0.568627f;
+			m_dif[2] = 0.113725f;
+			m_dif[3] = 1.0f;
+			m_spec[0] = 0.992157f;
+			m_spec[1] = 0.941176f;
+			m_spec[2] = 0.807843f;
+			m_spec[3] = 1.0f;
+			shiny = 27.8974f;
+			break;
+		case '3':
+			m_amb[0] = 0.1745f;
+			m_amb[1] = 0.01175f;
+			m_amb[2] = 0.01175f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.61424f;
+			m_dif[1] = 0.04136f;
+			m_dif[2] = 0.04136f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.727811f;
+			m_spec[1] = 0.626959f;
+			m_spec[2] = 0.626959f;
+			m_spec[3] = 0.55f;
+			shiny = 76.8f;
+			break;
+		case '4':
+			m_amb[0] = 0.0215f;
+			m_amb[1] = 0.1745f;
+			m_amb[2] = 0.0215f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.07568f;
+			m_dif[1] = 0.61424f;
+			m_dif[2] = 0.07568f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.633f;
+			m_spec[1] = 0.727811f;
+			m_spec[2] = 0.626959f;
+			m_spec[3] = 0.55f;
+			shiny = 76.8f;
+			break;
+		case '5':
+			m_amb[0] = 0.24725f;
+			m_amb[1] = 0.1995f;
+			m_amb[2] = 0.0745f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.75164f;
+			m_dif[1] = 0.60648f;
+			m_dif[2] = 0.22648f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.628281f;
+			m_spec[1] = 0.555802f;
+			m_spec[2] = 0.366065f;
+			m_spec[3] = 0.55f;
+			shiny = 51.2f;
+			break;
 		case 'q':
 		case 27:
 			exit (0);
@@ -613,7 +694,8 @@ void keyboard(unsigned char key, int x, int y)
             light_pos1[2] -= 3;
             glutPostRedisplay();
             break;
-		default: break;
+		default: 
+		break;
 		glutPostRedisplay();
 
 	}
@@ -767,13 +849,7 @@ void init(void)
 /* display function - GLUT display callback function
  *		clears the screen, sets the camera position, draws the ground plane and movable box
  */
-void display(void)
-{
-	// set lighting values
-	float m_amb [] ={0.25f, 0.25f, 0.25f, 1.0f  };
-	float m_dif []={0.4f, 0.4f, 0.4f, 1.0f };
-	float m_spec [] ={0.774597f, 0.774597f, 0.774597f, 1.0f };
-	float shiny = 76.8;
+void display(void){
 
 	float origin[3] = {0,0,0};
 
