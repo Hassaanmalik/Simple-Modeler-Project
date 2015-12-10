@@ -106,18 +106,6 @@ Vector4D vec4R;
 
 //function which will populate a sample graph 
 void initGraph(){
-	//TRANSFORMATION
-	//a tranlation transformation node
-	//how much translation
-//	tempVec3.x = 1;
-//	tempVec3.y = 0;
-//	tempVec3.z = 1;
-	//add the node as a child of root node
-//	T1 = new NodeTransform(Translate, tempVec3);
-	//insert the node into the graph
-//	SG->insertChildNodeHere(T1);
-	//go to the child node
-
 	NodeGroup *G1 = new NodeGroup();
 	//insert the node into the graph
 	SG->insertChildNodeHere(G1);
@@ -275,6 +263,7 @@ void runGraph(){
 
 
 bool Intersect(int x, int y){
+	printf("%i, %i\n", x, y);
 
 	//allocate matricies memory
 	double matModelView[16], matProjection[16]; 
@@ -301,8 +290,8 @@ bool Intersect(int x, int y){
          viewport, &endArray[0], &endArray[1], &endArray[2]); 
 
 
-	//printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
-	//printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
+	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
+	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
 
 	
 	px = start[0];
@@ -460,78 +449,116 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case '1':
-			m_amb[0] = 0.25f;m_amb[1] = 0.25f;m_amb[2] = 0.25f;m_amb[3] = 1.0f;
-			m_dif[0] = 0.4f;m_dif[1] = 0.4f;m_dif[2] = 0.4f;m_dif[3] = 1.0f;
-			m_spec[0] = 0.774597f;m_spec[1] = 0.774597f;m_spec[2] = 0.774597f;m_spec[3] = 1.0f;
+			m_amb[0] = 0.25f;
+			m_amb[1] = 0.25f;
+			m_amb[2] = 0.25f;
+			m_amb[3] = 1.0f;
+			m_dif[0] = 0.4f;
+			m_dif[1] = 0.4f;
+			m_dif[2] = 0.4f;
+			m_dif[3] = 1.0f;
+			m_spec[0] = 0.774597f;
+			m_spec[1] = 0.774597f;
+			m_spec[2] = 0.774597f;
+			m_spec[3] = 1.0f;
 			shiny = 76.8;
 			break;
 		case '2':
-			m_amb[0] = 0.329412f;m_amb[1] = 0.223529f;m_amb[2] = 0.027451f;m_amb[3] = 1.0f;
-			m_dif[0] = 0.780392f;m_dif[1] = 0.568627f;m_dif[2] = 0.113725f;m_dif[3] = 1.0f;
-			m_spec[0] = 0.992157f;m_spec[1] = 0.941176f;m_spec[2] = 0.807843f;m_spec[3] = 1.0f;
+			m_amb[0] = 0.329412f;
+			m_amb[1] = 0.223529f;
+			m_amb[2] = 0.027451f;
+			m_amb[3] = 1.0f;
+			m_dif[0] = 0.780392f;
+			m_dif[1] = 0.568627f;
+			m_dif[2] = 0.113725f;
+			m_dif[3] = 1.0f;
+			m_spec[0] = 0.992157f;
+			m_spec[1] = 0.941176f;
+			m_spec[2] = 0.807843f;
+			m_spec[3] = 1.0f;
 			shiny = 27.8974f;
 			break;
 		case '3':
-			m_amb[0] = 0.1745f;m_amb[1] = 0.01175f;m_amb[2] = 0.01175f;m_amb[3] = 0.55f;
-			m_dif[0] = 0.61424f;m_dif[1] = 0.04136f;m_dif[2] = 0.04136f;m_dif[3] = 0.55f;
-			m_spec[0] = 0.727811f;m_spec[1] = 0.626959f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
+			m_amb[0] = 0.1745f;
+			m_amb[1] = 0.01175f;
+			m_amb[2] = 0.01175f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.61424f;
+			m_dif[1] = 0.04136f;
+			m_dif[2] = 0.04136f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.727811f;
+			m_spec[1] = 0.626959f;
+			m_spec[2] = 0.626959f;
+			m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '4':
-			m_amb[0] = 0.0215f;m_amb[1] = 0.1745f;m_amb[2] = 0.0215f;m_amb[3] = 0.55f;
-			m_dif[0] = 0.07568f;m_dif[1] = 0.61424f;m_dif[2] = 0.07568f;m_dif[3] = 0.55f;
-			m_spec[0] = 0.633f;m_spec[1] = 0.727811f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
+			m_amb[0] = 0.0215f;
+			m_amb[1] = 0.1745f;
+			m_amb[2] = 0.0215f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.07568f;
+			m_dif[1] = 0.61424f;
+			m_dif[2] = 0.07568f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.633f;
+			m_spec[1] = 0.727811f;
+			m_spec[2] = 0.626959f;
+			m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '5':
-			m_amb[0] = 0.24725f;m_amb[1] = 0.1995f;m_amb[2] = 0.0745f;m_amb[3] = 0.55f;
-			m_dif[0] = 0.75164f;m_dif[1] = 0.60648f;m_dif[2] = 0.22648f;m_dif[3] = 0.55f;
-			m_spec[0] = 0.628281f;m_spec[1] = 0.555802f;m_spec[2] = 0.366065f;m_spec[3] = 0.55f;
+			m_amb[0] = 0.24725f;
+			m_amb[1] = 0.1995f;
+			m_amb[2] = 0.0745f;
+			m_amb[3] = 0.55f;
+			m_dif[0] = 0.75164f;
+			m_dif[1] = 0.60648f;
+			m_dif[2] = 0.22648f;
+			m_dif[3] = 0.55f;
+			m_spec[0] = 0.628281f;
+			m_spec[1] = 0.555802f;
+			m_spec[2] = 0.366065f;
+			m_spec[3] = 0.55f;
 			shiny = 51.2f;
 			break;
 		case 'q':
 		case 27:
 			exit (0);
 			break;
-		case 'a':
-		case 'A':		// for teapot
+		case '6':// for teapot
 			objectType = 1;
 			teapot = true;
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 's':		// for sphere
-		case 'S':
+		case '7':		// for sphere
 			objectType = 2;
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 'd':		// for cube
-		case 'D':
+		case '8':		// for cube
 			objectType = 3;
 			runGraph();
 			glutPostRedisplay();
 			break;		
-		case 'f':		// for cone
-		case 'F':
+		case '9':		// for cone
 			objectType = 4;
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 'g':
-		case 'G':		// for cylinder
+		case '0':		// for cylinder
 			objectType = 5;
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 'h':
-		case 'H':		// for torus
+		case '-':	// for torus
 			objectType = 6;
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 'j':
-		case 'J':		// for tetrehedron
+		case '=':	// for tetrehedron
 			objectType = 7;
 			runGraph();
 			glutPostRedisplay();
@@ -556,7 +583,7 @@ void keyboard(unsigned char key, int x, int y)
 			tempVec3.z = 0;
 			transformObject();
 			break;
-		case 'r':		// translate on -y
+		case 'a':		// translate on -y
 		//	Vector3D transform;
 			tempVec3.x = 0;
 			tempVec3.y = -1;
@@ -648,6 +675,10 @@ void keyboard(unsigned char key, int x, int y)
             light_pos1[2] -= 3;
             glutPostRedisplay();
             break;
+        case 'r':
+            SG -> deleteAllNodes();
+            glutPostRedisplay();
+            break;
 		default: 
 		break;
 		glutPostRedisplay();
@@ -703,16 +734,25 @@ void drawAxis()
 	glEnd();
 }
 
+
 void mouse(int button, int state, int x, int y){
+	bool hit = Intersect(x,y);
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		bool hit = Intersect(x,y);
-		//hit = true;
+		hit = true;
 		intX = 1; intY = 1; intZ = 1;
 		if (hit==true){
-		//	printf("px: %f, pz: %f\n",px, pz);
-		//	drawWireFrame(intX, intY, intZ);
+			SG -> wireOn();
+			glutPostRedisplay();
 		} 
 	} 
+	else if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){		
+		SG -> deleteThisNode();
+		//SG -> deleteAllNodes();
+	//	SG -> delete();
+		numberOfObjects --;
+	}
+	//bool temp = SG->deleteNode();
+	//temp = false;
 	glutPostRedisplay();
 }
 
@@ -785,6 +825,7 @@ void display(void){
 	glColor3f(1,1,1);
 
 	SG->draw();
+	printf("End of iteration\n");
 //	runGraph();
 
 	// apply light

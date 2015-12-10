@@ -12,12 +12,14 @@ public:
 	void goToChild(int i);
 	void goToParent();
 	void insertChildNodeHere(Node *node);
-	int deleteThisNode(int i);
+	void deleteThisNode();
+	void deleteAllNodes();
 	int returnType();
 
 	//Scene Graph Draw
 	void draw();
 	int returnChildNode();
+	void wireOn();
 
 private:
 	Node *currentNode;

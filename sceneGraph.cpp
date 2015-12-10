@@ -52,11 +52,22 @@ void SceneGraph::insertChildNodeHere(Node *node){
 }
 
 //deletes the current node, relinking the children as necessary
-int SceneGraph::deleteThisNode(int i){
-//	goToChild(i) ->isDrawable = true;
-//	return goToChild(i) -> currentNode -> type;
-	return 1;
-	//TODO
+void SceneGraph::deleteThisNode(){
+	printf("currentNode %i",currentNode->ID);
+
+	currentNode->children->pop_back();
+	goToParent();
+	goToChild(currentNode -> ID - 4);
+	//deleteThisNode->children->at(node);
+}
+
+//deletes the current node, relinking the children as necessary
+void SceneGraph::deleteAllNodes(){
+	printf("currentNode %i",currentNode->ID);
+	currentNode->children->pop_back();
+	goToRoot();
+	currentNode->children->pop_back();
+	printf("currentNode %i",currentNode->ID);
 }
 
 int SceneGraph::returnType(){
@@ -70,4 +81,8 @@ int SceneGraph::returnChildNode(){
 //draw the scenegraph
 void SceneGraph::draw(){
 	rootNode->draw();
+}
+
+void SceneGraph::wireOn(){
+	currentNode -> frameOn = true;
 }

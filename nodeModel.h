@@ -27,8 +27,9 @@ enum ModelType{
 class NodeModel:public Node{
 public:
 	NodeModel(ModelType whatType);	//constructor
-	ModelType modelType;
 
+	ModelType modelType;
+	void drawWireFrame();
 	virtual void nodeSpecificCodeDown();
 };
 
