@@ -275,7 +275,6 @@ void runGraph(){
 
 
 bool Intersect(int x, int y){
-	printf("%i, %i\n", x, y);
 
 	//allocate matricies memory
 	double matModelView[16], matProjection[16]; 
@@ -302,8 +301,8 @@ bool Intersect(int x, int y){
          viewport, &endArray[0], &endArray[1], &endArray[2]); 
 
 
-	printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
-	printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
+	//printf("near point: %f,%f,%f\n", start[0], start[1], start[2]);
+	//printf("far point: %f,%f,%f\n", endArray[0], endArray[1], endArray[2]);
 
 	
 	px = start[0];
@@ -461,78 +460,33 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case '1':
-			m_amb[0] = 0.25f;
-			m_amb[1] = 0.25f;
-			m_amb[2] = 0.25f;
-			m_amb[3] = 1.0f;
-			m_dif[0] = 0.4f;
-			m_dif[1] = 0.4f;
-			m_dif[2] = 0.4f;
-			m_dif[3] = 1.0f;
-			m_spec[0] = 0.774597f;
-			m_spec[1] = 0.774597f;
-			m_spec[2] = 0.774597f;
-			m_spec[3] = 1.0f;
+			m_amb[0] = 0.25f;m_amb[1] = 0.25f;m_amb[2] = 0.25f;m_amb[3] = 1.0f;
+			m_dif[0] = 0.4f;m_dif[1] = 0.4f;m_dif[2] = 0.4f;m_dif[3] = 1.0f;
+			m_spec[0] = 0.774597f;m_spec[1] = 0.774597f;m_spec[2] = 0.774597f;m_spec[3] = 1.0f;
 			shiny = 76.8;
 			break;
 		case '2':
-			m_amb[0] = 0.329412f;
-			m_amb[1] = 0.223529f;
-			m_amb[2] = 0.027451f;
-			m_amb[3] = 1.0f;
-			m_dif[0] = 0.780392f;
-			m_dif[1] = 0.568627f;
-			m_dif[2] = 0.113725f;
-			m_dif[3] = 1.0f;
-			m_spec[0] = 0.992157f;
-			m_spec[1] = 0.941176f;
-			m_spec[2] = 0.807843f;
-			m_spec[3] = 1.0f;
+			m_amb[0] = 0.329412f;m_amb[1] = 0.223529f;m_amb[2] = 0.027451f;m_amb[3] = 1.0f;
+			m_dif[0] = 0.780392f;m_dif[1] = 0.568627f;m_dif[2] = 0.113725f;m_dif[3] = 1.0f;
+			m_spec[0] = 0.992157f;m_spec[1] = 0.941176f;m_spec[2] = 0.807843f;m_spec[3] = 1.0f;
 			shiny = 27.8974f;
 			break;
 		case '3':
-			m_amb[0] = 0.1745f;
-			m_amb[1] = 0.01175f;
-			m_amb[2] = 0.01175f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.61424f;
-			m_dif[1] = 0.04136f;
-			m_dif[2] = 0.04136f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.727811f;
-			m_spec[1] = 0.626959f;
-			m_spec[2] = 0.626959f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.1745f;m_amb[1] = 0.01175f;m_amb[2] = 0.01175f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.61424f;m_dif[1] = 0.04136f;m_dif[2] = 0.04136f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.727811f;m_spec[1] = 0.626959f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '4':
-			m_amb[0] = 0.0215f;
-			m_amb[1] = 0.1745f;
-			m_amb[2] = 0.0215f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.07568f;
-			m_dif[1] = 0.61424f;
-			m_dif[2] = 0.07568f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.633f;
-			m_spec[1] = 0.727811f;
-			m_spec[2] = 0.626959f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.0215f;m_amb[1] = 0.1745f;m_amb[2] = 0.0215f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.07568f;m_dif[1] = 0.61424f;m_dif[2] = 0.07568f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.633f;m_spec[1] = 0.727811f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '5':
-			m_amb[0] = 0.24725f;
-			m_amb[1] = 0.1995f;
-			m_amb[2] = 0.0745f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.75164f;
-			m_dif[1] = 0.60648f;
-			m_dif[2] = 0.22648f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.628281f;
-			m_spec[1] = 0.555802f;
-			m_spec[2] = 0.366065f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.24725f;m_amb[1] = 0.1995f;m_amb[2] = 0.0745f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.75164f;m_dif[1] = 0.60648f;m_dif[2] = 0.22648f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.628281f;m_spec[1] = 0.555802f;m_spec[2] = 0.366065f;m_spec[3] = 0.55f;
 			shiny = 51.2f;
 			break;
 		case 'q':
@@ -749,37 +703,6 @@ void drawAxis()
 	glEnd();
 }
 
-// draws the cube for each point which has a wall
-void drawWireFrame(float x, float y, float z){
-	// the vertices as computed from the x and z coordinates
-	printf("px: %f, py: %f, pz: %f\n",x,y,z);
-	float n = 1;
-	float verts [8][3] = {{x-n,y-n,z+n},{x-n,y+n,z+n},{x+n,y+n,z+n},{x+n,y-n, z+n},{x-n,y-n,z-n},{x-n,y+n,z-n},{x+n,y+n,z-n},{x+n,y-n,z-n}};
-//	float verts[8][3] = { {-0.5,-0.5,0.5},{-0.5,0.5,0.5}, {0.5,0.5,0.5}, {0.5,-0.5,0.5}, {-0.5,-0.5,-0.5}, {-0.5,0.5,-0.5}, {0.5,0.5,-0.5}, {0.5,-0.5,-0.5} };
-
-	for (int i = 0; i < 8; i++){
-		printf("px: %f, py: %f, pz: %f\n",verts[i][0],verts[i][1],verts[i][2]);
-	}
-	// for each face
-	glColor3f(0,1,0);
-	glutSolidCube(1);
-	for (int index = 0; index < 6; index ++){
-		glBegin(GL_POLYGON);	
-			// for each four corners of a face
-			for(int i = 0; i < 4; i++){		
-				int vIndex = indices[index][i]; 
-				float a = verts[vIndex][0];
-				float b = verts[vIndex][1];
-				float c = verts[vIndex][2];
-			//	printf("px: %i\n",vIndex);
-		//		printf("px: %f, py: %f, pz: %f\n",a,b,c);
-				glVertex3fv(verts[vIndex]);
-			}
-		glEnd();
-	}
-	glutPostRedisplay();
-}
-
 void mouse(int button, int state, int x, int y){
 	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		bool hit = Intersect(x,y);
@@ -788,8 +711,7 @@ void mouse(int button, int state, int x, int y){
 		if (hit==true){
 		//	printf("px: %f, pz: %f\n",px, pz);
 		//	drawWireFrame(intX, intY, intZ);
-			drawWireFrame(1,1,1);
-	} 
+		} 
 	} 
 	glutPostRedisplay();
 }
@@ -863,7 +785,6 @@ void display(void){
 	glColor3f(1,1,1);
 
 	SG->draw();
-	printf("End of iteration\n");
 //	runGraph();
 
 	// apply light

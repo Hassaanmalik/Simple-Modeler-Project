@@ -34,19 +34,23 @@ void NodeModel::nodeSpecificCodeDown(){
 		if(frameOn == true){
 			printf("frameOn\n");
 			glColor3f(0,1,0);
-			glBegin(GL_LINE_LOOP);//draw a line loop for the wire map
-					glVertex3f(0,0,0);
-					glVertex3f(2,0,0);
+			glBegin(GL_LINE_LOOP);
+			//draw a line loop for the wire map
+/*					glVertex3f(0,0,0);
 					glVertex3f(2,0,2);
-					glVertex3f(0,0,2);
-					glVertex3f(0,2,2);
-					glVertex3f(0,2,0);
 					glVertex3f(2,2,0);
-					glVertex3f(2,2,2);
+					glVertex3f(0,0,0);
+					glVertex3f(0,2,2);
+					glVertex3f(2,0,2);
+					glVertex3f(2,2,0);
+					glVertex3f(0,2,2);
+					//glVertex3f(2,2,2);*/
+
+					glutWireCube(2);
 			glEnd();
 		}
 		glColor3f(0,1,1);
-		glutSolidTeapot(1);
+		//glutSolidTeapot(1);
 		break;
 	case Cone:
 		glColor3f(1,1,0);
