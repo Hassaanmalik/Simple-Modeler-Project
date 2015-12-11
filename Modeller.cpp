@@ -888,8 +888,8 @@ int main(int argc, char** argv)
     printf("- Press'l'  for lighting (on/off)\n"); 
     printf("- Press'1-5' to toggle different materials\n"); 
     printf("- Press'k' or 'i'  to move the first light\n"); 
-    printf("- Press'n' or 'u'  to move the second light\n")    
-    printf("- Press'f'  for fog (on/off)\n"); ; 
+    printf("- Press'n' or 'u'  to move the second light\n"); 
+    printf("- Press'f'  for fog (on/off)\n");
     printf("- Press'/' to toggle different textures\n\n");
 
 
