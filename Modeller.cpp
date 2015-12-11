@@ -80,6 +80,11 @@ float m_dif []={0.4f, 0.4f, 0.4f, 1.0f };
 float m_spec [] ={0.774597f, 0.774597f, 0.774597f, 1.0f };
 float shiny = 76.8;
 
+/* TEXTURE */
+//an array for iamge data
+GLubyte* tex;
+int width, height, maximum;
+
 int child = 0;
 bool teapot = false, sphere = false, cube = false, cone = false, cylinder = false, torus = false, thedron = false;
 int objectType = 0;
@@ -265,6 +270,60 @@ void runGraph(){
 	glutPostRedisplay();
 }
 
+GLubyte* LoadPPM(char* file, int* width, int* height, int* maximum)
+{
+	GLubyte* img;
+	FILE *fd;
+	int n, m;
+	int  k, nm;
+	char c;
+	int i;
+	char b[100];
+	float s;
+	int red, green, blue;
+	
+	fd = fopen(file, "r");
+	fscanf(fd,"%[^\n] ",b);
+	if(b[0]!='P'|| b[1] != '3')
+	{
+		printf("%s is not a PPM file!\n",file); 
+		exit(0);
+	}
+	printf("%s is a PPM file\n", file);
+	fscanf(fd, "%c",&c);
+	while(c == '#') 
+	{
+		fscanf(fd, "%[^\n] ", b);
+		printf("%s\n",b);
+		fscanf(fd, "%c",&c);
+	}
+	ungetc(c,fd); 
+	fscanf(fd, "%d %d %d", &n, &m, &k);
+
+	printf("%d rows  %d columns  max value= %d\n",n,m,k);
+
+	nm = n*m;
+
+	img = (GLubyte*)(malloc(3*sizeof(GLuint)*nm));
+
+	s=255.0/k;
+
+
+	for(i=0;i<nm;i++) 
+	{
+		fscanf(fd,"%d %d %d",&red, &green, &blue );
+		img[3*nm-3*i-3]=red*s;
+		img[3*nm-3*i-2]=green*s;
+		img[3*nm-3*i-1]=blue*s;
+	}
+
+	*width = n;
+	*height = m;
+	*maximum = k;
+
+	return img;
+}
+
 
 bool Intersect(int x, int y){
 	printf("%i, %i\n", x, y);
@@ -346,54 +405,6 @@ bool Intersect(int x, int y){
 	double tN = -(A*R0x + B*R0y + C*R0z + D);
 	double tD = A*Rdx + B*Rdy + C*Rdz;
 	double t = tN / tD;
-
-
-	//check for intersection against sphere!
-	//hurray!
-	// will find the first top item meeting the criteria
-/*	for(int i = numberOfObjects; i >=0; i--){
-		selected = i;
-		printf("enter loop\n");
-
-		intX = locationArray[i].x;
-		intY = locationArray[i].y;
-		intZ = locationArray[i].z;
-		
-		double flipX = -1* endArray[0];
-		double flipY = -1* endArray[1];
-		double flipZ = -1* endArray[2];
-
-		double xMin = intX -2, xMax = intX+2;
-		double yMin = intY - 2, yMax = intY+3;
-		double zMin = intZ - 3, zMax = intZ+3;
-
-		start[0] = abs(start[0]);
-		start[1] = abs(start[1]);
-		start[2] = abs(start[2]);
-
-		printf("x: %f, y: %f,z: %f \n",intX,intY,intZ );
-		printf("xMin: %f, xMax: %f\n",xMin, xMax);
-		printf("yMin: %f, yMax: %f\n",yMin, yMax);
-		printf("zMin: %f, zMax: %f\n",zMin, zMax);
-		if ((yMin <= start[1]) && (start[1] <= yMax) && (zMin <= start[2]) && (start[2] <= zMax)){
-			printf("hit X\n");
-			return true;
-		}
-		if ((xMin <= start[0]) && (start[0] <= xMax) && (zMin <= start[2]) && (start[2] <= zMax)){
-			printf("hit Y\n");
-			return true;
-		}
-		if ((xMin <= start[0]) && (start[0] <= xMax) && (yMin <= start[1]) && (start[1] <= yMax)){
-			printf("hit Z\n");
-			return true;
-		}
-		return false;
-	} */
-
-	
-
-	//// N*Rd = 
-	// or t = ((-N*R0 + D)/N*Rd)
 
 	double sq = B*B  - 4*A*C;
 
@@ -632,6 +643,25 @@ void keyboard(unsigned char key, int x, int y)
        		 NodeModel *Test;
 			Test->drawWireFrame();
 			break;
+		case '/':
+			l++;
+			if (l  == 0)	{				
+				glDisable(GL_TEXTURE_2D);
+			}			
+			else if(l == 1){
+				glEnable(GL_TEXTURE_2D);
+				tex = LoadPPM("marble.ppm", &width, &height, &maximum);
+			}
+			else if(l == 2){
+				glEnable(GL_TEXTURE_2D);
+				tex = LoadPPM("snail_a.ppm", &width, &height, &maximum);
+			}
+			else if(l == 3){
+				glEnable(GL_TEXTURE_2D);
+				tex = LoadPPM("interface.ppm", &width, &height, &maximum);
+				l=-1;
+			}
+			break;
 		default: 
 		break;
 		glutPostRedisplay();
@@ -810,6 +840,17 @@ void display(void){
 	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shiny);
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos0);
 	glLightfv(GL_LIGHT1, GL_POSITION, light_pos1);
+
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 
+					0, GL_RGB, GL_UNSIGNED_BYTE, tex);
+
+
+	//set texture proterties
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	glutSwapBuffers();
 	//glutPostRedisplay();
