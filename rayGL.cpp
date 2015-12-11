@@ -30,47 +30,6 @@ int CURRENT = 0;
 
 	double start[] ={0,0,0}, end[]={1,1,1};
 
-
-/* drawPolygon - takes 4 indices and an array of vertices
- *   and draws a polygon using the vertices indexed by the indices
- */
-void drawPolygon(int a, int b, int c, int d, float v[8][3]){
-	glBegin(GL_POLYGON);
-
-		glTexCoord2f(0, 0);
-		glVertex3fv(v[a]);
-
-		glTexCoord2f(0, 1);
-		glVertex3fv(v[b]);
-
-		glTexCoord2f(1, 1);
-		glVertex3fv(v[c]);
-
-		glTexCoord2f(1, 0);
-		glVertex3fv(v[d]);
-	glEnd();
-}
-
-/* cube - takes an array of 8 vertices, and draws 6 faces
- *  with drawPolygon, making up a box
- */
-/* drawBox - takes centre point, width, height and depth of a box,
- *  calculates its corner vertices, and draws it with the cube function
- */
-void drawBox(float* c, float w, float h, float d)
-{
-	float vertices[8][3] = { {c[0]-w/2, c[1]-h/2, c[2]+d/2},
-							 {c[0]-w/2, c[1]+h/2, c[2]+d/2},
-							 {c[0]+w/2, c[1]+h/2, c[2]+d/2},
-							 {c[0]+w/2, c[1]-h/2, c[2]+d/2}, 
-							 {c[0]-w/2, c[1]-h/2, c[2]-d/2}, 
-							 {c[0]-w/2, c[1]+h/2, c[2]-d/2}, 
-							 {c[0]+w/2, c[1]+h/2, c[2]-d/2},
-							 {c[0]+w/2, c[1]-h/2, c[2]-d/2} };
-
-	//cube(vertices);
-}
-
 void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -151,7 +110,7 @@ bool Intersect(int x, int y){
 	B *= 2.0;
 
 	C = R0x*R0x + R0y*R0y + R0z* R0z - 1;
-
+	printf("C: %d\n",C);
 
 	double sq = B*B  - 4*A*C;
 

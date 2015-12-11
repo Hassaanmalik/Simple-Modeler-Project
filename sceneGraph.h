@@ -3,6 +3,9 @@
 
 #include "node.h"
 #include "structs.h"
+
+//extern void NodeModel::drawWireFrame();
+
 class SceneGraph{
 public:
 	SceneGraph();	//constructor
@@ -20,10 +23,14 @@ public:
 	void draw();
 	int returnChildNode();
 	void wireOn();
+	void wireOff();
+	bool compareNode(int id);
+	bool goToNode(int id);
 
 private:
 	Node *currentNode;
 	Node *rootNode;
+	Node *temp;
 };
 
 #endif

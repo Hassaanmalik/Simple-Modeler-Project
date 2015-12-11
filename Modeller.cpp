@@ -17,20 +17,21 @@
 
 #include "structs.h"
 
+GLfloat fogColor[4] = {1.0f,1.0f,1.0f,1.0f}; 
+
 float pos[] = {0,1,0};
 float camPos[] = {2.5, 2.5, 5};
 float angle = 0.0f;
 
-int clickX, clickY, clickZ;
-
-bool clicked = false;
-// int turn = 0;
 
 //node ids
 int masterID = 0;
 int getID(){
 	return masterID++;
 }
+
+Vector3D locationArray[100];
+int numberOfObjects = 0;
 
 // return x y and z for node.cpp
 int nodeX = 0, nodeY = 0, nodeZ = 0;
@@ -62,6 +63,12 @@ void setType (int t){
 	type = t;
 }
 
+int getNumber(){
+	return numberOfObjects;
+}
+
+bool fog = false;
+
 // lighting 
 float light_pos0[] = {0.0,10.0,0,1.0};
 float light_pos1[] = {10.0,10.0,-10,1.0};
@@ -79,9 +86,6 @@ int objectType = 0;
 
 double start[] ={0,0,0};
 double endArray[]={1,1,1};
-
-Vector3D locationArray[100];
-int numberOfObjects = 0;
 
 float px, py, pz;
 float intX, intY, intZ;
@@ -402,6 +406,7 @@ bool Intersect(int x, int y){
 		t1 = ((-1) * B - sqrt(sq))/(2*A);
 
 		printf("Intersection at: t = %f, and t = %f\n", t0, t1);
+		return true;
 	}
 
 
@@ -409,37 +414,45 @@ bool Intersect(int x, int y){
 
 }
 
-
-void transformObject(){
-	T1 = new NodeTransform(Translate, tempVec3);
-	SG -> goToRoot();
-	SG->goToChild(0);
-	SG->goToChild(0);
-	SG->insertChildNodeHere(T1);
-	glutPostRedisplay();
-//	SG->goToChild(SG -> returnChildNode());
+bool locateNode(int id){
+	return SG -> goToNode(id);
+	printf("did not find");
 }
 
-void rotateObject(){
-	R1 = new NodeTransform(Rotate, vec4R);
-	SG -> goToRoot();
-	SG->goToChild(0);
-	SG->goToChild(0);
-	SG->goToChild(0);
-	SG->goToChild(0);
+
+void transformObject(int ObjNumber, int x, int y, int z){
+	Vector3D v;
+	v.x = x; v.y = y; v.z = z;
+	// may need to initialize a new translate node
+	T1 = new NodeTransform(Translate, v);
+	int nodeNum = (4 * ObjNumber) + 2;
+	bool exists = locateNode(nodeNum);
+	if (exists){
+		SG->insertChildNodeHere(T1);
+		glutPostRedisplay();
+	}
+}
+
+void rotateObject(int ObjNumber, int w, int x, int y, int z){
+	Vector4D v;
+	v.w = w; v.x = x; v.y = y; v.z = z;
+	R1 = new NodeTransform(Rotate, v);
+	int nodeNum = (4 * ObjNumber) + 4;
 	SG->insertChildNodeHere(R1);
 	glutPostRedisplay();
 //	SG->goToChild(SG -> returnChildNode());
 }
 
-void scaleObject(){
+void scaleObject(int ObjNumber, int x, int y, int z){
+	Vector3D v;
+	v.x = x; v.y = y; v.z = z;
 	S1 = new NodeTransform(Scale, vec3S);
-	SG -> goToRoot();
-	SG->goToChild(0);
-	SG->goToChild(0);
-	SG->goToChild(0);
-	SG->insertChildNodeHere(S1);
-	glutPostRedisplay();
+//	int nodeNum = (4 * ObjNumber) + 3;
+//	bool exists = locateNode(nodeNum);
+//	if (exists){
+		SG->insertChildNodeHere(S1);
+		glutPostRedisplay();
+//	}
 //	SG->goToChild(SG -> returnChildNode());
 }
 
@@ -449,78 +462,33 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case '1':
-			m_amb[0] = 0.25f;
-			m_amb[1] = 0.25f;
-			m_amb[2] = 0.25f;
-			m_amb[3] = 1.0f;
-			m_dif[0] = 0.4f;
-			m_dif[1] = 0.4f;
-			m_dif[2] = 0.4f;
-			m_dif[3] = 1.0f;
-			m_spec[0] = 0.774597f;
-			m_spec[1] = 0.774597f;
-			m_spec[2] = 0.774597f;
-			m_spec[3] = 1.0f;
+			m_amb[0] = 0.25f;m_amb[1] = 0.25f;m_amb[2] = 0.25f;m_amb[3] = 1.0f;
+			m_dif[0] = 0.4f;m_dif[1] = 0.4f;m_dif[2] = 0.4f;m_dif[3] = 1.0f;
+			m_spec[0] = 0.774597f;m_spec[1] = 0.774597f;m_spec[2] = 0.774597f;m_spec[3] = 1.0f;
 			shiny = 76.8;
 			break;
 		case '2':
-			m_amb[0] = 0.329412f;
-			m_amb[1] = 0.223529f;
-			m_amb[2] = 0.027451f;
-			m_amb[3] = 1.0f;
-			m_dif[0] = 0.780392f;
-			m_dif[1] = 0.568627f;
-			m_dif[2] = 0.113725f;
-			m_dif[3] = 1.0f;
-			m_spec[0] = 0.992157f;
-			m_spec[1] = 0.941176f;
-			m_spec[2] = 0.807843f;
-			m_spec[3] = 1.0f;
+			m_amb[0] = 0.329412f;m_amb[1] = 0.223529f;m_amb[2] = 0.027451f;m_amb[3] = 1.0f;
+			m_dif[0] = 0.780392f;m_dif[1] = 0.568627f;m_dif[2] = 0.113725f;m_dif[3] = 1.0f;
+			m_spec[0] = 0.992157f;m_spec[1] = 0.941176f;m_spec[2] = 0.807843f;m_spec[3] = 1.0f;
 			shiny = 27.8974f;
 			break;
 		case '3':
-			m_amb[0] = 0.1745f;
-			m_amb[1] = 0.01175f;
-			m_amb[2] = 0.01175f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.61424f;
-			m_dif[1] = 0.04136f;
-			m_dif[2] = 0.04136f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.727811f;
-			m_spec[1] = 0.626959f;
-			m_spec[2] = 0.626959f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.1745f;m_amb[1] = 0.01175f;m_amb[2] = 0.01175f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.61424f;m_dif[1] = 0.04136f;m_dif[2] = 0.04136f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.727811f;m_spec[1] = 0.626959f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '4':
-			m_amb[0] = 0.0215f;
-			m_amb[1] = 0.1745f;
-			m_amb[2] = 0.0215f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.07568f;
-			m_dif[1] = 0.61424f;
-			m_dif[2] = 0.07568f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.633f;
-			m_spec[1] = 0.727811f;
-			m_spec[2] = 0.626959f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.0215f;m_amb[1] = 0.1745f;m_amb[2] = 0.0215f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.07568f;m_dif[1] = 0.61424f;m_dif[2] = 0.07568f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.633f;m_spec[1] = 0.727811f;m_spec[2] = 0.626959f;m_spec[3] = 0.55f;
 			shiny = 76.8f;
 			break;
 		case '5':
-			m_amb[0] = 0.24725f;
-			m_amb[1] = 0.1995f;
-			m_amb[2] = 0.0745f;
-			m_amb[3] = 0.55f;
-			m_dif[0] = 0.75164f;
-			m_dif[1] = 0.60648f;
-			m_dif[2] = 0.22648f;
-			m_dif[3] = 0.55f;
-			m_spec[0] = 0.628281f;
-			m_spec[1] = 0.555802f;
-			m_spec[2] = 0.366065f;
-			m_spec[3] = 0.55f;
+			m_amb[0] = 0.24725f;m_amb[1] = 0.1995f;m_amb[2] = 0.0745f;m_amb[3] = 0.55f;
+			m_dif[0] = 0.75164f;m_dif[1] = 0.60648f;m_dif[2] = 0.22648f;m_dif[3] = 0.55f;
+			m_spec[0] = 0.628281f;m_spec[1] = 0.555802f;m_spec[2] = 0.366065f;m_spec[3] = 0.55f;
 			shiny = 51.2f;
 			break;
 		case 'q':
@@ -565,77 +533,47 @@ void keyboard(unsigned char key, int x, int y)
 			break;
 		case 'v':		// translate on +x 
 		//	Vector3D transform;
-			tempVec3.x = 1;
-			tempVec3.y = 0;
-			tempVec3.z = 0;
-			transformObject();
+			transformObject(0, 1,0,0);
 		case 'w':		// translate on -x
 		//	Vector3D transform;
-			tempVec3.x = -1;
-			tempVec3.y = 0;
-			tempVec3.z = 0;
-			transformObject();
+			transformObject(0, -1,0,0);
 			break;
 		case 'e':		// translate on + y
 		//	Vector3D transform;
-			tempVec3.x = 0;
-			tempVec3.y = 1;
-			tempVec3.z = 0;
-			transformObject();
+			transformObject(0, 0,1,0);
 			break;
 		case 'a':		// translate on -y
 		//	Vector3D transform;
-			tempVec3.x = 0;
-			tempVec3.y = -1;
-			tempVec3.z = 0;
-			transformObject();
+			transformObject(0, 0,-1,0);
 			break;
 		case 't':		// translate on +z
 		//	Vector3D transform;
-			tempVec3.x = 0;
-			tempVec3.y = 0;
-			tempVec3.z = 1;
-			transformObject();
+			transformObject(0, 0,0,1);
 			break;
 		case 'y':		// translate on -z
 		//	Vector3D transform;
-			tempVec3.x = 0;
-			tempVec3.y = 0;
-			tempVec3.z = -1;
-			transformObject();
+			transformObject(0, 0,0,-1);
 			break;
 		case 'z':		//rotate on x
-			vec4R.w= 10;
-			vec4R.x = 1;
-			vec4R.y = 0;
-			vec4R.z = 0;
-			rotateObject();
+			rotateObject(0,10,1,0,0);
 			break;
 		case 'x':		//rotate on y
-			vec4R.w= 10;
-			vec4R.x = 0;
-			vec4R.y = 1;
-			vec4R.z = 0;
-			rotateObject();
+			rotateObject(0,10,0,1,0);
 			break;
 		case 'c':		//rotate on z
-			vec4R.w= 10;
-			vec4R.x = 0;
-			vec4R.y = 0;
-			vec4R.z = 1;
-			rotateObject();
+			rotateObject(0,10,0,0,1);
 			break;
 		case 'p':		// scale
 			vec3S.x = 1.2;
 			vec3S.y = 1.2;
 			vec3S.z = 1.2;			
-			scaleObject();
+			scaleObject(1,1.2,1.2,1.2);
 			break;
 		case 'o':		// scale
 			vec3S.x = 0.8;
 			vec3S.y = 0.8;
 			vec3S.z = 0.8;			
-			scaleObject();
+			scaleObject(1,0.8,0.8,0.8);
 			break;
 		case 'l':
 		case 'L':
@@ -675,10 +613,25 @@ void keyboard(unsigned char key, int x, int y)
             light_pos1[2] -= 3;
             glutPostRedisplay();
             break;
-        case 'r':
+        case 'r':		// reset
             SG -> deleteAllNodes();
             glutPostRedisplay();
             break;
+        case 'f':		// fog
+        	if (fog){
+				glEnable(GL_FOG); 
+				fog = false;
+			}
+			else{
+				glDisable(GL_FOG);
+				fog = true;
+			}
+            glutPostRedisplay();
+            break;
+        case 'd':
+       		 NodeModel *Test;
+			Test->drawWireFrame();
+			break;
 		default: 
 		break;
 		glutPostRedisplay();
@@ -737,15 +690,26 @@ void drawAxis()
 
 void mouse(int button, int state, int x, int y){
 	bool hit = Intersect(x,y);
-	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		hit = true;
+//	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		//hit = true;
 		intX = 1; intY = 1; intZ = 1;
 		if (hit==true){
-			SG -> wireOn();
+			printf("hit\n");
+		//	SG -> wireOn();
+		//	SG -> draw();
+			NodeModel *Test;
+			Test->drawWireFrame();
 			glutPostRedisplay();
 		} 
-	} 
-	else if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){		
+		else{
+			SG -> wireOff();
+			glutPostRedisplay();
+		}
+	//} 
+	if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){	
+	//	int objectNumber = 0;
+	//	int number = (4*objectNumber)+1;
+	//	locateNode(number);	
 		SG -> deleteThisNode();
 		//SG -> deleteAllNodes();
 	//	SG -> delete();
@@ -793,6 +757,17 @@ void init(void)
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, diff1);
 	glLightfv(GL_LIGHT1, GL_AMBIENT, amb1);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, spec1);
+
+	float density = 0.3; //fog density
+	float fogColor[4] = {0.5, 0.5, 0.5, 1.0};
+
+
+//	glEnable (GL_FOG); 
+	glFogi (GL_FOG_MODE, GL_EXP2); 
+	glFogfv (GL_FOG_COLOR, fogColor); 
+	glFogf (GL_FOG_DENSITY, density); 
+	glHint (GL_FOG_HINT, GL_NICEST); 
+
 
 	// turn on backface culling
     glCullFace(GL_BACK);

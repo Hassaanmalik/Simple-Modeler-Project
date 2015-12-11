@@ -24,9 +24,9 @@ NodeTransform::NodeTransform(transformType whatType, Vector4D vec4){
 	transformationType = whatType;
 	amount4 = vec4;
 }
-
+/*
 void NodeTransform::nodeSpecificCodeUp(){
-	//printf("UP : amount3.x: %1f amount3.y %1f amount3.z %1f \n", amount3.x, amount3.y, amount3.z);
+	printf("UP : amount3.x: %1f amount3.y %1f amount3.z %1f \n", amount3.x, amount3.y, amount3.z);
 
 	switch (transformationType){
 	case Translate:
@@ -44,7 +44,7 @@ void NodeTransform::nodeSpecificCodeUp(){
 	//amount3.z=0;
 
 
-}
+}*/
 
 void NodeTransform::nodeSpecificCodeDown(){
 	switch (transformationType){
