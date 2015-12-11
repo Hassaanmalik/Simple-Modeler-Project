@@ -461,6 +461,10 @@ void scaleObject(int ObjNumber, int x, int y, int z){
 //	int nodeNum = (4 * ObjNumber) + 3;
 //	bool exists = locateNode(nodeNum);
 //	if (exists){
+		SG-> goToRoot();
+		SG-> goToChild(0);
+		SG-> goToChild(0);
+		SG-> goToChild(0);
 		SG->insertChildNodeHere(S1);
 		glutPostRedisplay();
 //	}
@@ -724,7 +728,7 @@ void mouse(int button, int state, int x, int y){
 		//hit = true;
 		intX = 1; intY = 1; intZ = 1;
 		if (hit==true){
-			printf("hit\n");
+		//	printf("hit\n");
 		//	SG -> wireOn();
 		//	SG -> draw();
 			NodeModel *Test;
@@ -830,7 +834,7 @@ void display(void){
 	glColor3f(1,1,1);
 
 	SG->draw();
-	printf("End of iteration\n");
+
 //	runGraph();
 
 	// apply light
@@ -866,7 +870,43 @@ int main(int argc, char** argv)
 	glutInitWindowSize(600, 600);
 	glutInitWindowPosition(50, 50);
 
-	glutCreateWindow("SimpleSceneGraph");	//creates the window
+	glutCreateWindow("Modeller");	//creates the window
+
+		// print keyboard commands
+	printf("Keyboard Actions:\n");
+    printf("- Press'q' to quit\n\n");
+
+    printf("- Press '6' to draw a teapot\n");
+    printf("- Press '7' to draw a cube\n");
+    printf("- Press '8' to draw a sphere\n");
+    printf("- Press '9' to draw a cone\n");
+    printf("- Press '0' to draw a cylinder\n");
+    printf("- Press '-' to draw a torus\n");
+    printf("- Press '=' to draw a tetrahedron\n\n");
+
+    printf("- Press'1-5' to toggle different materials\n");  
+    printf("- Press'l'  for lighting (on/off)\n"); 
+    printf("- Press'1-5' to toggle different materials\n"); 
+    printf("- Press'k' or 'i'  to move the first light\n"); 
+    printf("- Press'n' or 'u'  to move the second light\n")    
+    printf("- Press'f'  for fog (on/off)\n"); ; 
+    printf("- Press'/' to toggle different textures\n\n");
+
+
+    printf("- Press'v' or 'w'  to translate about the x axis\n");
+    printf("- Press'e' or 'a'  to translate about the y\n");
+    printf("- Press't' or 'y'  to translate about the z\n");
+    printf("- Press'z' or 'x' or 'c'  to rotate about the x, y, or z respectively\n");
+    printf("- Press'p' or 'o'  to scale objects \n");
+
+
+    printf("- Press'r'  to reset the modeller\n"); 
+    printf("- Press the 'left' or 'right' key to move on the x axis\n"); 
+    printf("- Press the 'up' or 'down' key to move on the y axis\n"); 
+    printf("- Press the 'page up' or 'page down' key to move on the z axis\n");
+    printf("Mouse Actions:\n");
+    printf("- Click right to delete an object\n"); 
+    printf("- Click lefft to select an object\n"); 
 
 	
 	glClearColor(1, 1, 0.5, 0.5);
