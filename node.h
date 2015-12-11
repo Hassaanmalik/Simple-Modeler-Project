@@ -17,7 +17,6 @@ extern int getZ();
 extern int getType();
 extern int getNumber();
 
-extern void drawWireFrame();
 
 //if you add more derived classes
 //add the types here

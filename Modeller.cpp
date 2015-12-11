@@ -691,8 +691,10 @@ void mouse(int button, int state, int x, int y){
 		intX = 1; intY = 1; intZ = 1;
 		if (hit==true){
 			printf("hit\n");
-			SG -> wireOn();
-			SG -> draw();
+		//	SG -> wireOn();
+		//	SG -> draw();
+			NodeModel *Test;
+			Test->drawWireFrame();
 			glutPostRedisplay();
 		} 
 		else{
