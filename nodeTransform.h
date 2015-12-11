@@ -18,7 +18,7 @@ public:
 	Vector3D amount3;
 	Vector4D amount4;
 
-	virtual void nodeSpecificCodeUp();
+//	virtual void nodeSpecificCodeUp();
 	virtual void nodeSpecificCodeDown();
 };
 

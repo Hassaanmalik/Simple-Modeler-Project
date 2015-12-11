@@ -29,7 +29,7 @@ public:
 	NodeModel(ModelType whatType);	//constructor
 
 	ModelType modelType;
-	void drawWireFrame();
+	virtual void drawWireFrame();
 	virtual void nodeSpecificCodeDown();
 };
 

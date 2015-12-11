@@ -19,6 +19,7 @@ NodeModel::NodeModel(ModelType whatType){	//constructor
 
 void NodeModel::drawWireFrame(){
 	//if(frameOn == true){
+		printf("draw\n");
 		glColor3f(0,1,0);
 		glutWireCube(2);
 	//}
@@ -30,30 +31,33 @@ void NodeModel::nodeSpecificCodeDown(){
 	switch (modelType){
 	case Sphere:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+		if(frameOn){
+			glColor3f(0,1,0);
+			glutWireCube(2);
+		}
 		glColor3f(0,0,1);
 		glutSolidSphere(1, 12, 10);
 		break;
 	case Cube:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(1,0,1);
 		glutSolidCube(1);
 		break;
 	case Teapot:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(0,1,1);
 		glutSolidTeapot(1);
 		break;
 	case Cone:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(1,1,0);
 		glutSolidCone(1,1,40,1);
 		break;
 	case Cylinder:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(1,0.5,1);
 		GLUquadricObj *quadratic;
@@ -65,13 +69,13 @@ void NodeModel::nodeSpecificCodeDown(){
 		gluCylinder(quadratic,1,1, 1, 40,5);
 		break;
 	case Torus:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(0,1,0);
 		glutSolidTorus(0.2,0.6,30, 30);
 		break;
 	case Tetrahedron:
-		frameOn = true;
+	//	frameOn = true;
 		if(frameOn){drawWireFrame();}
 		glColor3f(1,0,0);
 		glutSolidTetrahedron();

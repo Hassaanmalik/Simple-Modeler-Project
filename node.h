@@ -15,6 +15,9 @@ extern int getX();
 extern int getY();
 extern int getZ();
 extern int getType();
+extern int getNumber();
+
+extern void drawWireFrame();
 
 //if you add more derived classes
 //add the types here
@@ -37,7 +40,9 @@ public:
 	int currentChild;	
 	Vector3D coordinates;
 	int type;
-	bool frameOn;
+	bool frameOn = false;
+	int numberOfObjects;
+	bool checkFrame;
 
 	void draw(); 
 	virtual void nodeSpecificCodeDown();

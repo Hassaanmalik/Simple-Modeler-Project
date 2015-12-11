@@ -11,6 +11,8 @@ Node::Node(){	//constructor
 	coordinates.x = getX(), coordinates.y = getY(), coordinates.z = getZ();
 	type = getType();
 	frameOn = false;
+	numberOfObjects = getNumber();
+	//checkFrame = drawWireFrame();
 
 	//printf("node init done\n");
 }
@@ -25,17 +27,17 @@ void Node::draw(){
 	nodeSpecificCodeDown();
 	//recursively call our children
 	const int numberOfChildren = children->size();
-	//printf("number of children %i\n", numberOfChildren);
-	//printf("end \n");
+//	printf("number of children %i\n", numberOfChildren);
+//	printf("end \n");
 
 	if (numberOfChildren > 0){
 		for (int i = 0; i < numberOfChildren; i++){
-			//printf("           child ID: %i typeID: %i \n", children->at(i)->ID, children->at(i)->nodeType);
+//			printf("           child ID: %i typeID: %i \n", children->at(i)->ID, children->at(i)->nodeType);
 
 			children->at(i)->draw();
 		}
 	}
-	//printf("   end \n");
+//	printf("   end \n");
 	//we are exiting the node, so execute the commands
 	//ie. pop matrix, etc.
 	nodeSpecificCodeUp();

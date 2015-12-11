@@ -37,7 +37,7 @@ run: $(PROGRAM_NAME)
 #make will automatically know that the objectfile needs to be compiled
 #form a cpp source file and find it itself :)
 #main.o node.o nodeGroup.o nodeModel.o nodeTransform.o sceneGraph.o
-$(PROGRAM_NAME): main.o node.o nodeGroup.o nodeModel.o nodeTransform.o sceneGraph.o
+$(PROGRAM_NAME): Modeller.o node.o nodeGroup.o nodeModel.o nodeTransform.o sceneGraph.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 clean:
