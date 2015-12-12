@@ -136,25 +136,25 @@ void runGraph(){
 	vec4R.z = 1;
 
 	if (teapot){
-		T1 = new NodeTransform(Translate, tempVec3);
-		S1 = new NodeTransform(Scale, vec3S);
-		R1 = new NodeTransform(Rotate, vec4R);
+		T1 = new NodeTransform(Translate, tempVec3); //inistiallizes an initial translation at 0,0,0
+		S1 = new NodeTransform(Scale, vec3S); //inistiallizes an initial scale at 1,1,1
+		R1 = new NodeTransform(Rotate, vec4R); //inistiallizes an initial rotattion at 1,1,1
 		SG->goToRoot();
-		SG->goToChild(0);
-		SG->insertChildNodeHere(T1);
-		SG->goToChild(numberOfObjects);
-		SG->insertChildNodeHere(S1);
-		SG->goToChild(0);
-		SG->insertChildNodeHere(R1);
-		SG->goToChild(0);
+		SG->goToChild(0);//get it to correct root
+		SG->insertChildNodeHere(T1);//apply transation
+		SG->goToChild(numberOfObjects); //no to next node
+		SG->insertChildNodeHere(S1);//apply scale
+		SG->goToChild(0);//next node
+		SG->insertChildNodeHere(R1);//apply rotate
+		SG->goToChild(0);//next node
 		teapot = false;
 		setType(1);
-		NodeModel *M1 = new NodeModel(Teapot);
-		SG->insertChildNodeHere(M1);
-		numberOfObjects +=1;
-		locationArray[numberOfObjects] = tempVec3;
+		NodeModel *M1 = new NodeModel(Teapot);//sets tepot
+		SG->insertChildNodeHere(M1);//inset teapot
+		numberOfObjects +=1;//increase size of number of objects
+		locationArray[numberOfObjects] = tempVec3; //store location in an array
 	}
-	else if (objectType == 2){
+	else if (objectType == 2){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -173,7 +173,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (objectType == 3){
+	else if (objectType == 3){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -191,7 +191,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (objectType == 4){
+	else if (objectType == 4){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -210,7 +210,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (objectType== 5){
+	else if (objectType== 5){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -229,7 +229,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (objectType== 6){
+	else if (objectType== 6){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -248,7 +248,7 @@ void runGraph(){
 		numberOfObjects +=1;
 		locationArray[numberOfObjects] = tempVec3;
 	}
-	else if (objectType == 7){
+	else if (objectType == 7){//same as teapot
 		T1 = new NodeTransform(Translate, tempVec3);
 		S1 = new NodeTransform(Scale, vec3S);
 		R1 = new NodeTransform(Rotate, vec4R);
@@ -270,6 +270,7 @@ void runGraph(){
 	glutPostRedisplay();
 }
 
+//used to load ppm file 
 GLubyte* LoadPPM(char* file, int* width, int* height, int* maximum)
 {
 	GLubyte* img;
@@ -324,7 +325,7 @@ GLubyte* LoadPPM(char* file, int* width, int* height, int* maximum)
 	return img;
 }
 
-
+//checks if array intersects with object
 bool Intersect(int x, int y){
 	printf("%i, %i\n", x, y);
 
@@ -437,11 +438,14 @@ void transformObject(int ObjNumber, int x, int y, int z){
 	// may need to initialize a new translate node
 	T1 = new NodeTransform(Translate, v);
 	int nodeNum = (4 * ObjNumber) + 2;
-	bool exists = locateNode(nodeNum);
-	if (exists){
+//	bool exists = locateNode(nodeNum);
+//	if (exists){
+		SG-> goToRoot();
+		SG-> goToChild(0);
+		SG-> goToChild(0);
 		SG->insertChildNodeHere(T1);
 		glutPostRedisplay();
-	}
+//	}
 }
 
 void rotateObject(int ObjNumber, int w, int x, int y, int z){
@@ -546,26 +550,26 @@ void keyboard(unsigned char key, int x, int y)
 			runGraph();
 			glutPostRedisplay();
 			break;
-		case 'v':		// translate on +x 
+		case 'd':		// translate on +x 
 		//	Vector3D transform;
 			transformObject(0, 1,0,0);
-		case 'w':		// translate on -x
+		case 'a':		// translate on -x
 		//	Vector3D transform;
 			transformObject(0, -1,0,0);
 			break;
-		case 'e':		// translate on + y
+		case 'w':		// translate on + y
 		//	Vector3D transform;
 			transformObject(0, 0,1,0);
 			break;
-		case 'a':		// translate on -y
+		case 's':		// translate on -y
 		//	Vector3D transform;
 			transformObject(0, 0,-1,0);
 			break;
-		case 't':		// translate on +z
+		case 'e':		// translate on +z
 		//	Vector3D transform;
 			transformObject(0, 0,0,1);
 			break;
-		case 'y':		// translate on -z
+		case 'f':		// translate on -z
 		//	Vector3D transform;
 			transformObject(0, 0,0,-1);
 			break;
@@ -602,15 +606,13 @@ void keyboard(unsigned char key, int x, int y)
 			glutPostRedisplay();
 			break;
 		   // if 'j' -> decrease light 1 position
-        case 'n':
-        case 'N':
+        case 'u':
             light_pos0[0] -= 3;
             light_pos1[0] -= 3;
             glutPostRedisplay();
             break;
             // if 'u' -> increase light 1 position
-        case 'u':
-        case 'U':
+        case 'j':
             light_pos0[0] += 3;
             light_pos1[0] += 3;
             glutPostRedisplay();
@@ -623,7 +625,7 @@ void keyboard(unsigned char key, int x, int y)
             glutPostRedisplay();
             break;
             // if 'k' -> decrease light 2 position
-        case 'I':
+        case 'h':
             light_pos0[2] -= 3;
             light_pos1[2] -= 3;
             glutPostRedisplay();
@@ -632,7 +634,7 @@ void keyboard(unsigned char key, int x, int y)
             SG -> deleteAllNodes();
             glutPostRedisplay();
             break;
-        case 'f':		// fog
+        case 'm':		// fog
         	if (fog){
 				glEnable(GL_FOG); 
 				fog = false;
@@ -643,7 +645,7 @@ void keyboard(unsigned char key, int x, int y)
 			}
             glutPostRedisplay();
             break;
-        case 'd':
+        case 'n':
        		 NodeModel *Test;
 			Test->drawWireFrame();
 			break;
@@ -887,15 +889,15 @@ int main(int argc, char** argv)
     printf("- Press'1-5' to toggle different materials\n");  
     printf("- Press'l'  for lighting (on/off)\n"); 
     printf("- Press'1-5' to toggle different materials\n"); 
-    printf("- Press'k' or 'i'  to move the first light\n"); 
-    printf("- Press'n' or 'u'  to move the second light\n"); 
-    printf("- Press'f'  for fog (on/off)\n");
+    printf("- Press'u' or 'j'  to move the first light\n"); 
+    printf("- Press'h' or 'k'  to move the second light\n"); 
+    printf("- Press'm'  for fog (on/off)\n");
     printf("- Press'/' to toggle different textures\n\n");
 
 
-    printf("- Press'v' or 'w'  to translate about the x axis\n");
-    printf("- Press'e' or 'a'  to translate about the y\n");
-    printf("- Press't' or 'y'  to translate about the z\n");
+    printf("- Press'a' or 'd'  to translate about the x axis\n");
+    printf("- Press'w' or 's'  to translate about the y\n");
+    printf("- Press'e' or 'f'  to translate about the z\n");
     printf("- Press'z' or 'x' or 'c'  to rotate about the x, y, or z respectively\n");
     printf("- Press'p' or 'o'  to scale objects \n");
 

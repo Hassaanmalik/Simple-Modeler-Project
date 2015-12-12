@@ -16,15 +16,15 @@ Keyboard Actions:
 
     - Press'1-5' to toggle different materials
     - Press'l'  for lighting (on/off)
-    - Press'k' or 'i'  to move the first light
-    - Press'n' or 'u'  to move the second light
-    - Press'f'  for fog (on/off)
+    - Press'u' or 'j'  to move the first light
+    - Press'h' or 'k'  to move the second light
+    - Press’m’  for fog (on/off)
     - Press'/' to toggle different textures
     
     ** please note transformations only work when 2+ items are on the screen
-    - Press'v' or 'w'  to translate about the x
-    - Press'e' or 'a'  to translate about the y
-    - Press't' or 'y'  to translate about the z
+    - Press'a' or 'd'  to translate about the x axis
+    - Press'w' or 's'  to translate about the y
+    - Press'e' or 'f'  to translate about the z
 
     - Press'z' or 'x' or 'c'  to rotate about the x, y, or z respectively
 
