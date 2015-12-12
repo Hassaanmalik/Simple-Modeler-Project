@@ -20,10 +20,9 @@ NodeModel::NodeModel(ModelType whatType){	//constructor
 void NodeModel::drawWireFrame(){
 	//if(frameOn == true){
 	//	printf("frameOn%i\n", frameOn);
-		printf("draw\n");
 		glColor3f(0,1,0);
 		glutWireCube(2);
-		printf("drew\n");
+
 	//}
 }
 

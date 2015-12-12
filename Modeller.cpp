@@ -648,6 +648,7 @@ void keyboard(unsigned char key, int x, int y)
         case 'r':		// reset
             SG -> deleteAllNodes();
             glutPostRedisplay();
+            numberOfObjects = 0;
             break;
         case 'm':		// fog
         	if (fog){
@@ -660,10 +661,6 @@ void keyboard(unsigned char key, int x, int y)
 			}
             glutPostRedisplay();
             break;
-        case 'n':
-        	drawWireFrame();
-        	glutPostRedisplay();
-			break;
 		case '/':
 			l++;
 			if (l  == 0)	{				
@@ -741,25 +738,22 @@ void drawAxis()
 
 void mouse(int button, int state, int x, int y){
 	bool hit = Intersect(x,y);
-//	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		//hit = true;
 		intX = 1; intY = 1; intZ = 1;
-		if (hit==true){
+		if (hit==true && numberOfObjects >0){
 			if (on == false){
-				Vector3D v;
-				v.x = -1; v.y = 0; v.z =-1;
-				T1 = new NodeTransform(Translate, v);
-				glTranslatef(-1,-1,0);
 				drawWireFrame();
 				on = true;
 			}
-			else if (on == true){
-		//		drawWireFrameOff();
-			//	SG -> deleteThisNode();
+			else if (on){
+				SG -> deleteThisNode();
 				on = false;
 			}
-		glutPostRedisplay();
+			glutPostRedisplay();
 		} 
-	if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){	
+	}
+	else if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){	
 		SG -> deleteThisNode();
 		numberOfObjects --;
 	}
@@ -918,7 +912,7 @@ int main(int argc, char** argv)
     printf("- Press the 'page up' or 'page down' key to move on the z axis\n");
     printf("Mouse Actions:\n");
     printf("- Click right to delete an object\n"); 
-    printf("- Click lefft to select an object\n"); 
+    printf("- Double Left Click to select an object\n"); 
 
 	
 	glClearColor(1, 1, 0.5, 0.5);
