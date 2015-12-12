@@ -19,9 +19,11 @@ NodeModel::NodeModel(ModelType whatType){	//constructor
 
 void NodeModel::drawWireFrame(){
 	//if(frameOn == true){
-		printf("draw\n\n\n\n\n\n\n\n\n\n");
+	//	printf("frameOn%i\n", frameOn);
+		printf("draw\n");
 		glColor3f(0,1,0);
 		glutWireCube(2);
+		printf("drew\n");
 	//}
 }
 
@@ -30,7 +32,7 @@ void NodeModel::drawWireFrame(){
 void NodeModel::nodeSpecificCodeDown(){
 	switch (modelType){
 	case Sphere:
-	//	frameOn = true;
+		//frameOn = true;
 		if(frameOn){
 			glColor3f(0,1,0);
 			glutWireCube(2);
@@ -39,26 +41,26 @@ void NodeModel::nodeSpecificCodeDown(){
 		glutSolidSphere(1, 12, 10);
 		break;
 	case Cube:
-	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+		frameOn = true;
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(1,0,1);
 		glutSolidCube(1);
 		break;
 	case Teapot:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(0,1,1);
 		glutSolidTeapot(1);
 		break;
 	case Cone:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(1,1,0);
 		glutSolidCone(1,1,40,1);
 		break;
 	case Cylinder:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(1,0.5,1);
 		GLUquadricObj *quadratic;
 		quadratic = gluNewQuadric();
@@ -70,18 +72,20 @@ void NodeModel::nodeSpecificCodeDown(){
 		break;
 	case Torus:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(0,1,0);
 		glutSolidTorus(0.2,0.6,30, 30);
 		break;
 	case Tetrahedron:
 	//	frameOn = true;
-		if(frameOn){drawWireFrame();}
+	//	if(frameOn){drawWireFrame();}
 		glColor3f(1,0,0);
 		glutSolidTetrahedron();
 		break;
 	case Custom:
 		//own mesh thing
+		glColor3f(0,1,0);
+		glutWireCube(2);
 		break;
 	}
 }

@@ -24,6 +24,8 @@ float camPos[] = {2.5, 2.5, 5};
 float angle = 0.0f;
 
 
+bool on = false;
+
 //node ids
 int masterID = 0;
 int getID(){
@@ -437,7 +439,7 @@ void transformObject(int ObjNumber, int x, int y, int z){
 	v.x = x; v.y = y; v.z = z;
 	// may need to initialize a new translate node
 	T1 = new NodeTransform(Translate, v);
-	int nodeNum = (4 * ObjNumber) + 2;
+//	int nodeNum = (4 * ObjNumber) + 2;
 //	bool exists = locateNode(nodeNum);
 //	if (exists){
 		SG-> goToRoot();
@@ -473,6 +475,18 @@ void scaleObject(int ObjNumber, int x, int y, int z){
 		glutPostRedisplay();
 //	}
 //	SG->goToChild(SG -> returnChildNode());
+}
+
+void drawWireFrame(){
+	//NodeModel *M0 = new NodeModel(Tetrahedron);
+    NodeModel *Test= new NodeModel(Custom);
+    SG-> goToRoot();
+	SG-> goToChild(0);
+	SG-> goToChild(0);
+	SG-> goToChild(0);
+	SG-> goToChild(0);
+    SG->insertChildNodeHere(Test);
+  //	Test->drawWireFrame();
 }
 
 //callbacks
@@ -552,7 +566,8 @@ void keyboard(unsigned char key, int x, int y)
 			break;
 		case 'd':		// translate on +x 
 		//	Vector3D transform;
-			transformObject(0, 1,0,0);
+			transformObject(0,1,0,0);
+			break;
 		case 'a':		// translate on -x
 		//	Vector3D transform;
 			transformObject(0, -1,0,0);
@@ -646,8 +661,8 @@ void keyboard(unsigned char key, int x, int y)
             glutPostRedisplay();
             break;
         case 'n':
-       		 NodeModel *Test;
-			Test->drawWireFrame();
+        	drawWireFrame();
+        	glutPostRedisplay();
 			break;
 		case '/':
 			l++;
@@ -727,32 +742,27 @@ void drawAxis()
 void mouse(int button, int state, int x, int y){
 	bool hit = Intersect(x,y);
 //	if(button ==  GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		//hit = true;
 		intX = 1; intY = 1; intZ = 1;
 		if (hit==true){
-		//	printf("hit\n");
-		//	SG -> wireOn();
-		//	SG -> draw();
-			NodeModel *Test;
-			Test->drawWireFrame();
-			glutPostRedisplay();
+			if (on == false){
+				Vector3D v;
+				v.x = -1; v.y = 0; v.z =-1;
+				T1 = new NodeTransform(Translate, v);
+				glTranslatef(-1,-1,0);
+				drawWireFrame();
+				on = true;
+			}
+			else if (on == true){
+		//		drawWireFrameOff();
+			//	SG -> deleteThisNode();
+				on = false;
+			}
+		glutPostRedisplay();
 		} 
-		else{
-			SG -> wireOff();
-			glutPostRedisplay();
-		}
-	//} 
 	if (button ==  GLUT_RIGHT_BUTTON && state == GLUT_DOWN){	
-	//	int objectNumber = 0;
-	//	int number = (4*objectNumber)+1;
-	//	locateNode(number);	
 		SG -> deleteThisNode();
-		//SG -> deleteAllNodes();
-	//	SG -> delete();
 		numberOfObjects --;
 	}
-	//bool temp = SG->deleteNode();
-	//temp = false;
 	glutPostRedisplay();
 }
 
